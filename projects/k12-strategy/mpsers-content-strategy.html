@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPSERS Site — Content Strategy & Story Map</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a2e;
+  --soft:#4a5568;
+  --faint:#9aa5b4;
+  --bg:#ffffff;
+  --bg2:#f8fafc;
+  --bg3:#edf2f7;
+  --border:#e2e8f0;
+  --navy:#1a2f4e;
+  --blue:#3b82f6;
+  --red:#dc2626;
+  --amber:#d97706;
+  --green:#059669;
+  --purple:#7c3aed;
+}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.6;color:var(--ink);background:var(--bg)}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* LAYOUT */
+.shell{display:flex;height:100vh;overflow:hidden;width:100%}
+.nav{width:170px;flex-shrink:0;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.nav-logo{padding:1rem 0.85rem 0.65rem;border-bottom:1px solid var(--border)}
+.nav-logo-title{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.05em;text-transform:uppercase}
+.nav-logo-sub{font-size:10px;color:var(--faint);margin-top:2px}
+.nav-section{padding:.5rem 0}
+.nav-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:.55rem 0.85rem .25rem}
+.nav button{display:block;width:100%;text-align:left;padding:.4rem 0.85rem;font-size:12px;color:var(--soft);background:none;border:none;border-left:2px solid transparent;cursor:pointer;transition:all .12s;font-family:inherit}
+.nav button:hover{background:var(--bg3);color:var(--ink)}
+.nav button.active{color:var(--navy);font-weight:600;border-left:2px solid var(--blue);background:white}
+
+.main{flex:1;overflow-y:auto;padding:1.75rem 2rem}
+.panel{display:none}
+.panel.active{display:block}
+
+/* TYPOGRAPHY */
+h2{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.sub{font-size:12px;color:var(--faint);margin-bottom:1.5rem}
+h3{font-size:13px;font-weight:600;color:var(--ink);margin:1.5rem 0 .5rem}
+p{font-size:13px;color:var(--soft);line-height:1.65;margin-bottom:.65rem}
+hr{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.b-red{background:#fee2e2;color:#991b1b}
+.b-blue{background:#dbeafe;color:#1e40af}
+.b-green{background:#d1fae5;color:#065f46}
+.b-amber{background:#fef3c7;color:#92400e}
+.b-purple{background:#ede9fe;color:#5b21b6}
+.b-gray{background:var(--bg3);color:var(--soft)}
+
+/* INVENTORY TABLE */
+.inv-wrap{overflow-x:auto;margin-bottom:1rem}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);text-align:left;padding:6px 10px;border-bottom:2px solid var(--border);background:var(--bg2);white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4;color:var(--soft)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--bg2)}
+.topic-cell{font-weight:500;color:var(--ink);min-width:260px}
+.num-cell{font-weight:700;color:var(--faint);font-size:11px;width:28px}
+
+/* PSYCH CARDS */
+.psych-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+@media(max-width:700px){.psych-grid{grid-template-columns:1fr}}
+.psych-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem}
+.psych-num{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.psych-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.psych-body{font-size:12px;color:var(--soft);line-height:1.6}
+.psych-body strong{color:var(--ink);font-weight:600}
+
+/* STORY SPINE */
+.spine{padding-left:0;list-style:none;margin:.5rem 0}
+.spine-item{display:flex;gap:16px;padding-bottom:0;position:relative;margin-bottom:0}
+.spine-left{display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0}
+.spine-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;border:2.5px solid white;box-shadow:0 0 0 2px var(--border)}
+.spine-line{flex:1;width:2px;background:var(--border);min-height:20px;margin:3px 0}
+.spine-item:last-child .spine-line{display:none}
+.spine-body{padding-bottom:1.5rem;flex:1}
+.spine-phase{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.spine-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.spine-desc{font-size:12px;color:var(--soft);line-height:1.6;margin-bottom:6px}
+.spine-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
+.spine-tag{font-size:10px;padding:2px 7px;background:var(--bg2);border:1px solid var(--border);border-radius:3px;color:var(--faint)}
+.spine-why{font-size:11.5px;color:var(--faint);font-style:italic;line-height:1.5;border-left:2px solid var(--border);padding-left:8px}
+
+.d-hook{background:#dc2626}
+.d-identity{background:#3b82f6}
+.d-edu{background:#059669}
+.d-urgency{background:#d97706}
+.d-action{background:#7c3aed}
+.d-trust{background:#1a2f4e}
+
+.ph-hook{color:#dc2626}
+.ph-identity{color:#3b82f6}
+.ph-edu{color:#059669}
+.ph-urgency{color:#d97706}
+.ph-action{color:#7c3aed}
+.ph-trust{color:#1a2f4e}
+
+/* TENSION MAP */
+.tension-pair{display:grid;grid-template-columns:1fr 32px 1fr;gap:8px;align-items:start;margin-bottom:8px}
+.t-alarm{background:#fee2e2;border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:8px 10px;font-size:12px;color:#7f1d1d;line-height:1.5}
+.t-arrow{display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--faint);padding-top:6px}
+.t-resolve{background:#dbeafe;border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 10px;font-size:12px;color:#1e3a5f;line-height:1.5}
+.t-positive{background:#d1fae5;border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:8px 10px;font-size:12px;color:#064e3b;line-height:1.5;grid-column:1/-1}
+.t-label{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+
+/* QUESTIONS */
+.q-list{display:flex;flex-direction:column;gap:1px}
+.q-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px}
+.q-header{padding:.85rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;user-select:none}
+.q-header:hover{background:var(--bg3)}
+.q-left{}
+.q-num{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:3px}
+.q-text{font-size:13.5px;font-weight:600;color:var(--navy);line-height:1.35}
+.q-chevron{font-size:16px;color:var(--faint);flex-shrink:0;transition:transform .2s;margin-top:2px}
+.q-body{display:none;padding:0 1rem .85rem;border-top:1px solid var(--border)}
+.q-body.open{display:block}
+.q-why{font-size:12.5px;color:var(--soft);line-height:1.65;margin-top:.65rem}
+.q-impact{font-size:11.5px;color:var(--faint);margin-top:.5rem;font-style:italic}
+
+/* RECOMMENDATION */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:1rem 0}
+@media(max-width:800px){.rec-grid{grid-template-columns:1fr 1fr}}
+.rec-card{border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;background:var(--bg2)}
+.rec-card-phase{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.rec-card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
+.rec-card-desc{font-size:11.5px;color:var(--soft);line-height:1.55}
+
+.callout{border-radius:8px;padding:.85rem 1rem;margin:.75rem 0;font-size:12.5px;line-height:1.6}
+.callout-blue{background:#dbeafe;border-left:4px solid var(--blue);color:#1e3a5f}
+.callout-navy{background:#e8f0fe;border-left:4px solid var(--navy);color:var(--navy)}
+.callout strong{font-weight:600}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- NAV -->
+<div class="main">
+
+<!-- INVENTORY -->
+<div id="inventory" class="panel active">
+  <h2>Full content inventory</h2>
+  <div class="sub">Every topic across both builds — tagged by type and emotional weight · 32 items total</div>
+
+  <div class="inv-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Topic</th>
+          <th>Type</th>
+          <th>Emotional weight</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="num-cell">01</td><td class="topic-cell">The pay gap — $25,375 avg pension vs $69,068 avg salary</td><td><span class="badge b-red">Hook</span></td><td>Very high alarm — concrete, official, undeniable</td><td>ORS FY2025 + MDE</td></tr>
+        <tr><td class="num-cell">02</td><td class="topic-cell">Who built this & why — anonymous insider</td><td><span class="badge b-purple">Trust</span></td><td>Curiosity + solidarity — "someone who knows is on my side"</td><td>Original</td></tr>
+        <tr><td class="num-cell">03</td><td class="topic-cell">What is MPSERS — ORS, who runs it, scope</td><td><span class="badge b-gray">Foundation</span></td><td>Low — orientation only, not alarming</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">04</td><td class="topic-cell">Hire date → tier identification (diagnostic tool)</td><td><span class="badge b-blue">Identity</span></td><td>Very high relevance — "this is specifically about ME"</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">05</td><td class="topic-cell">Tier comparison — Basic, MIP, PP, PP2, DC-only</td><td><span class="badge b-blue">Identity</span></td><td>Medium — reference, needs personal anchor first</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">06</td><td class="topic-cell">DC-only default trap — 75-day window, irrevocable</td><td><span class="badge b-red">Alarm</span></td><td>Very high — catastrophic for those affected, many don't know</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">07</td><td class="topic-cell">What % of paycheck goes to MPSERS — contribution rates</td><td><span class="badge b-gray">Foundation</span></td><td>Low-medium — contextual, not emotionally charged</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">08</td><td class="topic-cell">Employer contribution — invisible 27–31% of payroll</td><td><span class="badge b-amber">Surprise</span></td><td>Medium positive — underappreciated value in total compensation</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">09</td><td class="topic-cell">Pension formula — FAC × multiplier × years of service</td><td><span class="badge b-green">Education</span></td><td>Medium — empowering once identity is established</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">10</td><td class="topic-cell">FAC — what counts, 3-year vs 5-year window, strategy</td><td><span class="badge b-green">Education</span></td><td>Medium-high — biggest lever in the formula</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">11</td><td class="topic-cell">Income replacement gap — personal calculator</td><td><span class="badge b-red">Alarm</span></td><td>Very high — personal, specific, produces a number</td><td>New build</td></tr>
+        <tr><td class="num-cell">12</td><td class="topic-cell">No COLA — inflation erodes the pension silently over time</td><td><span class="badge b-red">Alarm</span></td><td>High — slow-burn fear, rarely understood by members</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">13</td><td class="topic-cell">Social Security — Michigan educators DO participate</td><td><span class="badge b-green">Education</span></td><td>Low-medium — positive clarification, reduces anxiety</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">14</td><td class="topic-cell">Retiree healthcare — pre/post Sept. 4, 2012 split</td><td><span class="badge b-red">Alarm</span></td><td>Very high — post-2012 hires face $150K+ self-funded gap</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">15</td><td class="topic-cell">PHF — what it is, the math, will it be enough</td><td><span class="badge b-amber">Surprise</span></td><td>High alarm for post-2012 — PHF math is genuinely sobering</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">16</td><td class="topic-cell">PA 127 of 2024 — 3% healthcare contribution eliminated</td><td><span class="badge b-green">Update</span></td><td>Medium positive — good news most members don't know about</td><td>New build</td></tr>
+        <tr><td class="num-cell">17</td><td class="topic-cell">Service credit — earning, vesting, purchasing</td><td><span class="badge b-green">Education</span></td><td>Medium — important but complex, needs timing in the story</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">18</td><td class="topic-cell">Service credit refund trap — never cash out casually</td><td><span class="badge b-red">Alarm</span></td><td>High — irreversible mistake many make when leaving temporarily</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">19</td><td class="topic-cell">Retirement timing — optimal date, fiscal year end strategy</td><td><span class="badge b-amber">Optimization</span></td><td>Medium-high — one year = $24K+ over a 20-year retirement</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">20</td><td class="topic-cell">FAC timing — salary year maximization before retirement</td><td><span class="badge b-amber">Optimization</span></td><td>Medium — expert-level, most relevant for late-career</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">21</td><td class="topic-cell">Payment options — 6 types, irrevocable, survivor impact</td><td><span class="badge b-red">Alarm</span></td><td>High — permanent decision, spousal protection at stake</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">22</td><td class="topic-cell">Pension maximization strategy — risks and reality</td><td><span class="badge b-amber">Caution</span></td><td>Medium — nuanced, most relevant near retirement</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">23</td><td class="topic-cell">Taxes — federal treatment, Michigan PA 4/5 of 2023</td><td><span class="badge b-green">Education</span></td><td>Low-medium — important but not emotionally alarming</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">24</td><td class="topic-cell">403(b) vs 457 — the gap-closers, which to use first</td><td><span class="badge b-green">Education</span></td><td>High importance, low urgency — needs the gap framing first</td><td>New build</td></tr>
+        <tr><td class="num-cell">25</td><td class="topic-cell">Annuity trap — high-fee products inside 403(b) accounts</td><td><span class="badge b-red">Alarm</span></td><td>High — SEC enforcement data, specific documented harm to educators</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">26</td><td class="topic-cell">Roth 457 — new Sept. 2025, tax diversification opportunity</td><td><span class="badge b-green">Update</span></td><td>Medium positive — most members don't know it exists yet</td><td>New build</td></tr>
+        <tr><td class="num-cell">27</td><td class="topic-cell">Investment shift framework — early/mid/late career approach</td><td><span class="badge b-green">Education</span></td><td>Medium — strategic, appeals to readers who want a plan</td><td>New build</td></tr>
+        <tr><td class="num-cell">28</td><td class="topic-cell">System funding — 74.6% funded, $25.1B UAAL explained</td><td><span class="badge b-amber">Context</span></td><td>Medium concern — systemic risk context, not panic</td><td>New build</td></tr>
+        <tr><td class="num-cell">29</td><td class="topic-cell">Action plan — concrete steps by career stage</td><td><span class="badge b-purple">Action</span></td><td>High value — converts learning into doing, closes the loop</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">30</td><td class="topic-cell">Choosing an advisor — fiduciary, BrokerCheck, VALIC/Equitable</td><td><span class="badge b-purple">Trust</span></td><td>High — closes the site, protects the reader from exploitation</td><td>K12 guide</td></tr>
+        <tr><td class="num-cell">31</td><td class="topic-cell">ORS official resources — miAccount, SSA.gov, TDP calculator</td><td><span class="badge b-gray">Reference</span></td><td>Low — utility value, good to have, not emotionally engaging</td><td>Both builds</td></tr>
+        <tr><td class="num-cell">32</td><td class="topic-cell">The 5-question quiz — self-assessment, curiosity gap</td><td><span class="badge b-blue">Engagement</span></td><td>High engagement — self-test creates personal investment before content</td><td>K12 build</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--faint)">32 distinct content items. Not all need equal weight — several are reference material best handled as expandable accordion detail rather than primary sections. See the Story Spine tab for the proposed consolidation.</p>
+</div>
+
+<!-- PSYCHOLOGY -->
+<div id="psychology" class="panel">
+  <h2>Psychology framework</h2>
+  <div class="sub">The research principles that govern how this content should be sequenced and delivered</div>
+
+  <div class="psych-grid">
+    <div class="psych-card">
+      <div class="psych-num">Principle 01</div>
+      <div class="psych-title">Extended Parallel Process Model (EPPM)</div>
+      <div class="psych-body">Fear only produces behavior change when paired with efficacy. Fear alone produces paralysis and tab-closing. The required sequence is: <strong>reveal the threat → restore a sense of control → provide the specific action.</strong> Every alarming section needs an immediate exit ramp. The calculator is the most critical efficacy tool — it converts abstract fear into a specific, manageable number.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 02</div>
+      <div class="psych-title">Identity before information</div>
+      <div class="psych-body">People don't process generic information well. They process information that applies to them. The hire date gate is the most important UX element on the site. <strong>Everything after it should feel written specifically for this person.</strong> Sections irrelevant to their tier should disappear. Retention triples when readers feel the content is about them specifically.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 03</div>
+      <div class="psych-title">Curiosity gaps drive reading</div>
+      <div class="psych-body">The K12 quiz hook works because it opens a loop the brain must close. Every section headline should operate the same way. <strong>"What happens to your health insurance the day you retire?"</strong> demands an answer. "Retiree Healthcare Benefits" is a filing cabinet label. Headlines are questions or incomplete thoughts — never topic labels.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 04</div>
+      <div class="psych-title">The peak-end rule</div>
+      <div class="psych-body">Readers remember two moments above all others: the most emotionally intense moment and the final moment. The pay gap is the peak — it hits early and hard with official data. <strong>The ending must be empowering, not alarming.</strong> The action plan and advisor-vetting section close the loop with agency, not anxiety. Never end on fear.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 05</div>
+      <div class="psych-title">Progressive disclosure</div>
+      <div class="psych-body">Cognitive overload is the enemy of comprehension. Reveal complexity gradually — hook, then identity, then the most relevant alarming fact, then the mechanics that explain it, then the actions that address it. <strong>Every primary section should be readable in 90 seconds.</strong> Depth lives behind the expand button, not in front of it.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 06</div>
+      <div class="psych-title">Peer protection share trigger</div>
+      <div class="psych-body">Michigan educators share things when they feel the urgent need to protect a colleague. "You need to see this" is the motivation. The most shareable moments are the alarming revelations — DC-only trap, healthcare gap, no-COLA reality. <strong>Design those moments to be screenshot-worthy and easy to forward.</strong> Specific dollar figures, not ranges.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 07</div>
+      <div class="psych-title">Narrative transportation</div>
+      <div class="psych-body">When readers are absorbed in a story, resistance to new information drops significantly. The anonymous insider framing, the "nobody told you this" adversarial-toward-system voice, and the use of <strong>specific dollar examples</strong> (not ranges, not approximations) all trigger narrative transportation. This site tells a story — the reader's story — not a reference manual.</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-num">Principle 08</div>
+      <div class="psych-title">Sunk cost of reading</div>
+      <div class="psych-body">Once a reader has invested time in content — answered a quiz question, entered their hire date, run the calculator — they are significantly more likely to continue reading. <strong>Each interactive element is a commitment device.</strong> Design the early experience to generate small investments that pull readers through the full arc. The quiz and hire date gate serve this function.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SPINE -->
+<div id="spine" class="panel">
+  <h2>The story spine</h2>
+  <div class="sub">All 32 topics organized into a 7-phase narrative arc — with psychological rationale at each turn</div>
+
+  <ul class="spine">
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-hook"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-hook">Phase 1 — The Hook</div>
+        <div class="spine-title">The system failed you. Here's the proof.</div>
+        <div class="spine-desc">Open with the two official numbers side by side. No preamble, no explanation. $25,375 average pension. $69,068 average salary. Let the gap speak. Then immediately: who built this and why — the anonymous insider framing that establishes trust and solidarity before a single educational word is written.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">01 — Pay gap data</span>
+          <span class="spine-tag">02 — Who built this</span>
+        </div>
+        <div class="spine-why">Why first: creates the emotional investment that makes everything after it worth reading. Opens the loop. Establishes "adversarial toward the system, not the reader" as the site's voice — which is the register that earns trust from educators who have been burned before.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-identity"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-identity">Phase 2 — Identity</div>
+        <div class="spine-title">Which version of this problem is yours?</div>
+        <div class="spine-desc">Hire date input. Instant tier identification in plain language. One clear sentence about what that tier means for them. Everything from this point forward is filtered to their reality. For 2018–2024 hires, the DC-only alarm fires here — the most urgent content on the site, delivered to the people who need it most, before anything else.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">04 — Hire date diagnostic</span>
+          <span class="spine-tag">05 — Tier overview</span>
+          <span class="spine-tag">06 — DC-only alarm</span>
+          <span class="spine-tag">03 — MPSERS basics (brief)</span>
+        </div>
+        <div class="spine-why">Why second: once readers know "this is specifically about me," retention triples. Generic information after a personal anchor lands completely differently than generic information before one. The hire date gate is a commitment device — they've invested something, and now they keep reading.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-edu"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-edu">Phase 3 — The Number</div>
+        <div class="spine-title">What will your pension actually be?</div>
+        <div class="spine-desc">The pension formula, made simple. FAC × multiplier × years. Then immediately: the calculator — two inputs, instant output. Their specific projected pension. Their specific gap to 70–75% replacement. The income replacement percentage is the moment of clarity that motivates everything that follows.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">09 — Pension formula</span>
+          <span class="spine-tag">10 — FAC mechanics</span>
+          <span class="spine-tag">11 — Gap calculator</span>
+          <span class="spine-tag">13 — Social Security note</span>
+        </div>
+        <div class="spine-why">Why third: the formula only means something after the reader knows their tier. The calculator is the site's most powerful engagement tool and belongs at peak attention — after hook and identity establish investment, before scroll fatigue sets in. "I'm going to retire at 45% of my income" is the turning point moment.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-urgency"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-urgency">Phase 4 — What They Didn't Tell You</div>
+        <div class="spine-title">Three things that are already costing you.</div>
+        <div class="spine-desc">Three alarming revelations in sequence, each followed immediately by an efficacy exit ramp. (A) No COLA — your pension loses purchasing power every year in retirement. (B) The healthcare gap — the pre/post-2012 split and the PHF math that rarely adds up. (C) The annuity trap — SEC enforcement data on what has been done to Michigan teachers specifically. Content filtered by tier throughout.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">12 — No COLA</span>
+          <span class="spine-tag">14 — Healthcare split</span>
+          <span class="spine-tag">15 — PHF math</span>
+          <span class="spine-tag">25 — Annuity trap</span>
+          <span class="spine-tag">28 — System funding</span>
+        </div>
+        <div class="spine-why">Why here: alarms land harder when the reader already knows their personal gap number. "No COLA" means more when you've just seen $31,000/year in the calculator. The reader is now both alarmed AND personally invested — which is the exact state required for the mechanics section to be absorbed rather than skimmed.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-edu"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-edu">Phase 5 — How the System Works</div>
+        <div class="spine-title">Now that you know the problem — here's every lever.</div>
+        <div class="spine-desc">The comprehensive reference layer. Service credit, retirement timing optimization, FAC strategy, payment options, taxes, employer contribution context. This is the Knowledge Guide material — deep, accordion-based, filterable by tier. Readers who made it through the alarms are now motivated to understand the system. Depth is earned here, not imposed.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">07 — Contributions</span>
+          <span class="spine-tag">08 — Employer contribution</span>
+          <span class="spine-tag">17 — Service credit</span>
+          <span class="spine-tag">18 — Refund trap</span>
+          <span class="spine-tag">19 — Retirement timing</span>
+          <span class="spine-tag">20 — FAC timing</span>
+          <span class="spine-tag">21 — Payment options</span>
+          <span class="spine-tag">22 — Pension max risks</span>
+          <span class="spine-tag">23 — Taxes</span>
+        </div>
+        <div class="spine-why">Why here: mechanics without motivation are ignored. By Phase 5 the reader is alarmed, personally invested, and actively looking for how to improve their situation. The same content that produces eye-glazing at the top of a page produces genuine engagement after the alarm and identity phases have done their work.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-action"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-action">Phase 6 — Closing the Gap</div>
+        <div class="spine-title">What to do about it — in order, by where you are now.</div>
+        <div class="spine-desc">The investment framework. 403(b) vs 457 — which to fill first and why. The new Roth 457 opportunity most members don't know about. The early/mid/late career investment shift. The concrete action plan by career stage. Positive news about PA 127 and recent changes. The reader should leave this section feeling they have a clear, actionable path forward.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">24 — 403b vs 457</span>
+          <span class="spine-tag">26 — Roth 457 new</span>
+          <span class="spine-tag">27 — Investment shift</span>
+          <span class="spine-tag">16 — PA 127 update</span>
+          <span class="spine-tag">29 — Action plan by stage</span>
+        </div>
+        <div class="spine-why">Why here: "Contribute to your 457" lands completely differently when you've just calculated a $10,000/year retirement gap versus reading it in the abstract at the top of a page. The action section is the efficacy payoff for every alarming thing that came before it. This is where fear converts to agency.</div>
+      </div>
+    </li>
+
+    <li class="spine-item">
+      <div class="spine-left">
+        <div class="spine-dot d-trust"></div>
+        <div class="spine-line"></div>
+      </div>
+      <div class="spine-body">
+        <div class="spine-phase ph-trust">Phase 7 — Protect Yourself</div>
+        <div class="spine-title">If you ever talk to someone about this — here's how to not get burned.</div>
+        <div class="spine-desc">Choosing an advisor. The fiduciary standard — what it means and how to demand it in writing. FINRA BrokerCheck and SEC IAPD — free, public, takes two minutes. The VALIC and Equitable enforcement actions — what was done to Michigan teachers, specifically, with dollar figures. Official resources — miAccount, SSA.gov, ORS TDP calculator. The final gift.</div>
+        <div class="spine-tags">
+          <span class="spine-tag">30 — Choosing advisor</span>
+          <span class="spine-tag">25 — Enforcement actions</span>
+          <span class="spine-tag">31 — Official resources</span>
+          <span class="spine-tag">32 — Quiz (if retained)</span>
+        </div>
+        <div class="spine-why">Why last: the advisor-vetting section is the most trust-building content on the site and has the highest shareability among readers who've been exploited. Saving it for the end means it lands for readers who have invested the most — exactly the audience most likely to seek professional help and most likely to forward the site to a colleague.</div>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+<!-- TENSION -->
+<div id="tension" class="panel">
+  <h2>Tension & resolution map</h2>
+  <div class="sub">Every fear the site creates must be immediately paired with an efficacy exit ramp — EPPM in practice</div>
+
+  <h3>The core alarm / resolution pairs</h3>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>Average pension is only $25,375 — 37% of working salary. The gap is $43,693 before Social Security.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>The gap is calculable. Enter two numbers and see exactly what you're working with — then the rest of the site tells you what to do about it.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>You may have no pension and not know it. 2018–2024 hires who didn't choose defaulted into DC-only.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Log into miAccount right now. Your plan is listed on the first screen. It takes 60 seconds to know for certain.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>Your pension has no guaranteed COLA. $2,500/month in 2025 has the purchasing power of $1,535/month in 2045.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>The 403(b) and 457 exist precisely for this. Growth assets outside the pension are how you fight the inflation your pension ignores.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>Post-Sept. 4, 2012 hires have zero healthcare premium subsidy. Full self-funded cost from retirement to Medicare — potentially $150,000+.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Your PHF balance is visible in miAccount today. The gap is calculable. Planning starts with knowing the specific number, not the abstract fear.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>High-fee annuity products have been systematically sold inside 403(b) accounts to Michigan teachers. The SEC charged Equitable (2022) and VALIC (2020) specifically for this.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Check your 403(b) expense ratios today. Anything above 0.50% warrants scrutiny. FINRA BrokerCheck and SEC IAPD are free and take two minutes to use.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>The payment option decision at retirement is permanent and irrevocable. Most people make it in a rushed conversation they don't fully understand.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Read all six options now — years before you need to choose. Understanding them early converts an irrevocable decision into a considered one made without pressure.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>The MPSERS system is only 74.6% funded with a $25.1B unfunded liability. Part of what you pay funds past debt, not your own pension.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Your earned pension is legally protected — the UAAL is a funding problem, not a benefit-cancellation problem. But it is an argument for not depending solely on the pension, and for maximizing supplemental savings.</div>
+  </div>
+
+  <div class="tension-pair">
+    <div class="t-alarm"><div class="t-label">Alarm</div>Taking a contribution refund when leaving teaching temporarily forfeits your service credit — and the cost to repurchase it later is far higher than what you received.</div>
+    <div class="t-arrow">→</div>
+    <div class="t-resolve"><div class="t-label">Resolution</div>Leave your contributions with ORS if there is any chance you return to Michigan public education. Your service credit stays dormant but intact — it does not expire.</div>
+  </div>
+
+  <hr>
+  <h3>Content that is positive only — no alarm pairing needed</h3>
+
+  <div class="tension-pair" style="grid-template-columns:1fr">
+    <div class="t-positive"><div class="t-label">Good news: PA 127 of 2024</div>The 3% retiree healthcare member contribution was eliminated effective October 1, 2025 for premium subsidy members. Most pre-2012 educators don't know their take-home pay just increased. Present this as a win — no alarm framing needed.</div>
+  </div>
+  <div class="tension-pair" style="grid-template-columns:1fr">
+    <div class="t-positive"><div class="t-label">Good news: Roth 457 — new September 2025</div>MPSERS members can now make post-tax Roth contributions to the State of Michigan 457 Plan. No income limit, no required minimum distributions, tax-free growth. One of the most significant new planning tools in years. Most members have no idea it exists.</div>
+  </div>
+  <div class="tension-pair" style="grid-template-columns:1fr">
+    <div class="t-positive"><div class="t-label">Underappreciated value: Employer contribution</div>School districts contribute 27–31% of payroll to MPSERS on behalf of each teacher — money that never appears on a pay stub. A $69,000 salary has an additional $18,000–$21,000/year being contributed on the teacher's behalf. Frame as the invisible compensation most educators never account for.</div>
+  </div>
+  <div class="tension-pair" style="grid-template-columns:1fr">
+    <div class="t-positive"><div class="t-label">Underappreciated advantage: MIP early retirement</div>A MIP member who starts at 22 and teaches continuously can retire at 52 with a full, unreduced pension. This is genuinely rare in American public retirement systems. Most MIP members don't fully understand what they have — frame it as a gift worth understanding and protecting.</div>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="questions" class="panel">
+  <h2>Six questions before we build</h2>
+  <div class="sub">The answers materially change structural decisions — worth resolving before writing a line of HTML</div>
+
+  <div class="q-list">
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 01 — Audience entry point</div>
+          <div class="q-text">Do you expect most visitors to arrive knowing nothing — or with a specific question already in mind?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">This determines whether the quiz or the pay gap stat is the true opening move. If visitors arrive curious but uninvested, the quiz hook ("I bet you can't answer these 5 questions") builds commitment before the data lands. If they arrive with a specific pain point already — "I'm worried about my retirement" — the $25,375 number validates that concern before they've done anything. Both are valid; they produce different hero sections.</div>
+        <div class="q-impact">Impacts: hero section structure, whether the quiz comes before or after the stat, how long Phase 1 runs before the hire date gate.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 02 — The quiz</div>
+          <div class="q-text">Is the quiz a gateway into the guide — or has the hire date diagnostic replaced it as the personalization entry point?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">The K12 quiz was designed as the entry experience — take the quiz, feel the gap, then read the guide. The hire date diagnostic is arguably more powerful: it requires less effort, delivers immediate personal relevance, and filters all subsequent content. The quiz has high shareability and produces a score (social currency) but adds friction before the core content begins. They can coexist — quiz as engagement, hire date as personalization — or one can be primary.</div>
+        <div class="q-impact">Impacts: whether quiz is Step 1 or a sidebar feature, page length, mobile experience, share mechanics.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 03 — Architecture</div>
+          <div class="q-text">Should the full journey live on a single scrolling page, or should sections be separate pages with their own URLs?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">Single page: simpler build, simpler Cloudflare Pages deployment, one URL to share. The current site is single-file and that pattern works well. Downside: a 7-section comprehensive guide is a long scroll, and sharing a specific section requires an anchor link that not all platforms handle cleanly. Multi-page: each section has a clean URL (mpsers.guide/healthcare), better for targeted sharing and SEO, harder to maintain without a build framework. My leaning is single page with robust anchor navigation — the hire date filter keeps it from feeling overwhelming.</div>
+        <div class="q-impact">Impacts: Cloudflare Pages setup, shareability of specific sections, maintenance overhead, whether deep-linking works cleanly.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 04 — Depth vs. simplicity</div>
+          <div class="q-text">Is the primary reader someone who wants to understand the full system — or someone who wants to know what applies to them and what to do about it?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">The K12 guide goes deep on every topic — 4–6 accordion items per section, tables, edge cases, nuances. That serves a motivated research reader but creates abandon risk for a busy teacher with 8 minutes. The new site could be more opinionated: "here is what matters for your situation, here is what to do, here are the details if you want them." The 90-second-per-section rule from the psychology framework suggests simplicity as the default, with depth available. My recommendation: lead with the verdict, put the evidence behind the accordion.</div>
+        <div class="q-impact">Impacts: how much content lives above vs. below the fold per section, accordion density, whether secondary topics (taxes, service credit edge cases) get full sections or brief mentions with ORS links.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 05 — The terminal action</div>
+          <div class="q-text">What do you want the reader to DO at the end of the site — and at the end of each section?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">Currently the site has no commercial CTA, a share prompt, and a placeholder email for guide questions. That's clean but leaves motivated readers with no obvious next step except navigate away. Options: (A) email address for questions only — "Did the guide miss something? Send it here and I'll add it," (B) "Notify me when updated" email capture — one field, honest about its purpose, builds a list for future use, (C) resources section as the terminal action — miAccount, SSA.gov, ORS tools. A combination is fine. The ending shapes the entire experience. Option B is my recommendation — lowest friction, most honest, highest future value.</div>
+        <div class="q-impact">Impacts: footer design, per-section CTA wording, whether a Cloudflare Worker + KV email capture needs to be built into the deployment.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-header" onclick="toggleQ(this)">
+        <div class="q-left">
+          <div class="q-num">Question 06 — Section count</div>
+          <div class="q-text">Should every topic get a full primary section — or should some be consolidated into reference material within larger sections?</div>
+        </div>
+        <div class="q-chevron">›</div>
+      </div>
+      <div class="q-body">
+        <div class="q-why">Seven primary narrative sections with depth behind accordions is scannable and navigable on first load. Twelve equal sections feels like a textbook and creates a navigation problem — which one do I start with? My strong recommendation: 7 primary sections following the story spine, with secondary topics (taxes, system funding, service credit edge cases, ORS resource links) consolidated as a reference appendix section. The guide competes with ORS on comprehensiveness and loses. It wins on approachability, narrative, and personalization.</div>
+        <div class="q-impact">Impacts: nav structure, scroll length, how intimidating the page feels on first load, whether the guide complements ORS or tries to replace it.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- REC -->
+<div id="rec" class="panel">
+  <h2>Structural recommendation</h2>
+  <div class="sub">Based on everything assembled — the proposed blueprint before you answer the six questions</div>
+
+  <div class="callout callout-navy">
+    <strong>The core insight:</strong> The site tries to do three things — alarm, educate, and empower. Most educational sites front-load education. This site should front-load the alarm, deliver education as the explanation for the alarm, and close with empowerment. That is the complete EPPM cycle, and it mirrors how the best investigative journalism works.
+  </div>
+
+  <h3>Proposed 7-section architecture</h3>
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-card-phase ph-hook">Phase 1 — Hook + Data</div>
+      <div class="rec-card-title">1. The Gap</div>
+      <div class="rec-card-desc">$25,375 vs $69,068. Official numbers, no preamble. Then: who built this and why — the anonymous insider trust anchor. Short. Hard-hitting. Opens the loop.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-identity">Phase 2 — Identity</div>
+      <div class="rec-card-title">2. Your Plan</div>
+      <div class="rec-card-desc">Hire date → tier → personalized from this point forward. DC-only alarm fires immediately for 2018–2024 hires. Everything irrelevant disappears.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-edu">Phase 3 — Formula + Calculator</div>
+      <div class="rec-card-title">3. Your Number</div>
+      <div class="rec-card-desc">The formula simple. Two-input calculator. Personal pension projection. Personal income gap. The moment of clarity that motivates everything after it.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-urgency">Phase 4 — Three Alarms</div>
+      <div class="rec-card-title">4. What They Didn't Tell You</div>
+      <div class="rec-card-desc">No COLA. Healthcare gap. Annuity trap. Each alarm immediately followed by its efficacy exit ramp. Tier-filtered throughout. The emotional peak of the site.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-edu">Phase 5 — Mechanics</div>
+      <div class="rec-card-title">5. How the System Works</div>
+      <div class="rec-card-desc">Service credit, timing, payment options, taxes. Deep accordion-based reference. Tier-filtered. The same content that would bore a cold reader now engages an alarmed one.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-action">Phase 6 — Action</div>
+      <div class="rec-card-title">6. Closing the Gap</div>
+      <div class="rec-card-desc">403(b) vs 457. Roth 457. Investment shift. Stage-by-stage action plan. PA 127 good news. Fear converts to agency. The reader leaves with a path forward.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-card-phase ph-trust">Phase 7 — Trust</div>
+      <div class="rec-card-title">7. Protect Yourself</div>
+      <div class="rec-card-desc">Choosing an advisor. Fiduciary standard. BrokerCheck. VALIC/Equitable enforcement. ORS official links. The final gift — and the most shareable section on the site.</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="callout callout-blue">
+    <strong>Recommended next step:</strong> Answer the six questions in the previous tab. Once those are resolved, the next deliverable is a complete section-by-section content spec — every heading, every subpoint, what's above the fold vs. behind an accordion, what's tier-filtered vs. universal. That spec becomes the single source of truth for the build and prevents mid-build restructuring.
+  </div>
+
+  <h3>What does NOT need to be built from scratch</h3>
+  <p>The existing mpsers-guide.html already has the correct visual design, the hire date gate logic, the tier filtering JavaScript, the calculator, and all the accordion content. The rebuild is a <strong>restructuring and content resequencing</strong> — not a ground-up rebuild. Estimated effort given the existing codebase: 4–6 focused hours to implement the new story spine correctly.</p>
+</div>
+
+</div><!-- /main -->
+
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-title">MPSERS Site</div>
+    <div class="nav-logo-sub">Content Strategy & Story Map</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Analysis</div>
+    <button class="active" onclick="show('inventory',this)">Content inventory</button>
+    <button onclick="show('psychology',this)">Psychology framework</button>
+    <button onclick="show('spine',this)">The story spine</button>
+    <button onclick="show('tension',this)">Tension & resolution</button>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Decision</div>
+    <button onclick="show('questions',this)">6 questions for you</button>
+    <button onclick="show('rec',this)">Recommendation</button>
+  </div>
+</nav>
+
+</div><!-- /shell -->
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleQ(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.q-chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+</script>
+</body>
+</html>

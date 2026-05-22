@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Built Work — John F. Williams III</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0f14;--bg2:#111620;--bg3:#181e2a;--bg4:#1e2535;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e2e8f0;--text2:#8b97a8;--text3:#3d4a5c;
+  --gold:#c9a84c;--gold-dim:rgba(201,168,76,0.12);--gold-mid:rgba(201,168,76,0.28);
+  --teal:#2dd4bf;--teal-dim:rgba(45,212,191,0.1);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
+  --rose:#fb7185;--rose-dim:rgba(251,113,133,0.1);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.shell{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 32px 100px}
+
+/* HEADER */
+header{padding:56px 0 48px;border-bottom:1px solid var(--border);margin-bottom:52px}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;margin-bottom:32px;transition:color .2s}
+.back-link:hover{color:var(--gold)}
+.back-link svg{width:14px;height:14px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,58px);font-weight:700;line-height:1.04;letter-spacing:-.02em;margin-bottom:16px}
+h1 em{font-style:italic;color:var(--gold)}
+.header-sub{font-size:15px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:32px}
+.header-meta{display:flex;gap:12px;flex-wrap:wrap}
+.meta-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:5px 12px;border:1px solid var(--border2);border-radius:100px}
+.meta-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+
+/* FILTERS */
+.filter-bar{display:flex;gap:6px;margin-bottom:40px;flex-wrap:wrap}
+.filter-btn{padding:7px 16px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:all .18s;white-space:nowrap}
+.filter-btn:hover{border-color:var(--gold-mid);color:var(--text)}
+.filter-btn.active{background:var(--gold-dim);border-color:var(--gold-mid);color:var(--gold)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;align-items:start}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .22s,transform .22s,box-shadow .22s;position:relative}
+.card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.card.span-8{grid-column:span 8}
+.card.span-4{grid-column:span 4}
+.card.span-6{grid-column:span 6}
+.card.span-4b{grid-column:span 4}
+.card.span-12{grid-column:span 12}
+
+/* top accent line on hover */
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .22s;border-radius:12px 12px 0 0}
+.card:hover::after{opacity:1}
+.card.ac-gold::after{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card.ac-teal::after{background:linear-gradient(90deg,transparent,var(--teal),transparent)}
+.card.ac-blue::after{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.card.ac-amber::after{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.card.ac-rose::after{background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+
+/* visual area */
+.card-visual{height:160px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.card.span-8 .card-visual{height:196px}
+.card-icon{font-size:52px;line-height:1;opacity:.15;transition:opacity .22s,transform .3s;user-select:none}
+.card:hover .card-icon{opacity:.24;transform:scale(1.06)}
+
+/* visual bg patterns */
+.vbg-blue{background:linear-gradient(135deg,#070e1a 0%,#0d1e38 100%)}
+.vbg-gold{background:linear-gradient(135deg,#110d03 0%,#1e1608 100%)}
+.vbg-amber{background:linear-gradient(135deg,#110c02 0%,#1c1406 100%)}
+.vbg-teal{background:linear-gradient(135deg,#030f0e 0%,#071e1c 100%)}
+.vbg-rose{background:linear-gradient(135deg,#130508 0%,#200a10 100%)}
+
+/* subtle grid on visual */
+.card-visual::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 32px,rgba(255,255,255,.018) 32px,rgba(255,255,255,.018) 33px),repeating-linear-gradient(90deg,transparent,transparent 32px,rgba(255,255,255,.018) 32px,rgba(255,255,255,.018) 33px);pointer-events:none}
+
+/* card body */
+.card-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.tag-type{background:rgba(255,255,255,.06);color:var(--text2)}
+.tag-live{background:rgba(63,185,80,.1);color:#3fb950;border:1px solid rgba(63,185,80,.18)}
+.tag-demo{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-mid)}
+.tag-suite{background:rgba(45,212,191,.1);color:var(--teal);border:1px solid rgba(45,212,191,.2)}
+.card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;line-height:1.2;margin-bottom:8px;letter-spacing:-.01em;color:var(--text)}
+.card.span-8 .card-title{font-size:21px}
+.card-desc{font-size:12.5px;color:var(--text2);line-height:1.68;flex:1;margin-bottom:16px}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--border)}
+.card-stack{display:flex;gap:4px;flex-wrap:wrap}
+.stack-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--text3);padding:2px 6px;background:rgba(255,255,255,.04);border-radius:3px}
+.card-link{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .18s;flex-shrink:0;white-space:nowrap}
+.card-link:hover{color:var(--gold)}
+.card-link svg{width:11px;height:11px;transition:transform .18s}
+.card-link:hover svg{transform:translate(2px,-2px)}
+
+/* SUITE GROUPING */
+.suite-row{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:6px 0 2px;margin-top:6px}
+.suite-row-line{flex:1;height:1px;background:var(--border)}
+.suite-row-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);white-space:nowrap;padding:0 4px}
+
+/* DIVIDER */
+.grid-div{grid-column:1/-1;height:1px;background:var(--border);margin:10px 0}
+
+/* HIDDEN */
+.card.hidden,.suite-row.hidden,.grid-div.hidden{display:none!important}
+
+/* FOOTER */
+footer{padding:32px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:20px}
+.footer-l{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.06em}
+.footer-r{font-size:11px;color:var(--text3);text-decoration:none;transition:color .18s}
+.footer-r:hover{color:var(--gold)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:fadeUp .5s ease both}
+.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.09s}
+.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.19s}
+.card:nth-child(5){animation-delay:.24s}.card:nth-child(6){animation-delay:.29s}
+.card:nth-child(7){animation-delay:.34s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .card.span-8,.card.span-4,.card.span-6,.card.span-4b{grid-column:1/-1}
+  .shell{padding:0 20px 60px}
+  h1{font-size:32px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header>
+  <a href="https://johnfwilliamsiii.com" class="back-link">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+    johnfwilliamsiii.com
+  </a>
+  <div class="eyebrow">AI-Built Work</div>
+  <h1>Tools, systems &amp;<br><em>interfaces</em> I built<br>with AI.</h1>
+  <p class="header-sub">Interactive tools, data platforms, and strategic documents built using Claude and other AI tools — across financial services, fintech, and operations.</p>
+  <div class="header-meta">
+    <span class="meta-pill"><span class="meta-dot"></span>7 Projects</span>
+    <span class="meta-pill"><span class="meta-dot"></span>HTML · CSS · JavaScript</span>
+    <span class="meta-pill"><span class="meta-dot"></span>2025 – 2026</span>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filter('all',this)">All work</button>
+  <button class="filter-btn" onclick="filter('tool',this)">Interactive tools</button>
+  <button class="filter-btn" onclick="filter('dashboard',this)">Dashboards</button>
+  <button class="filter-btn" onclick="filter('site',this)">Sites &amp; pages</button>
+  <button class="filter-btn" onclick="filter('strategy',this)">Strategy &amp; docs</button>
+  <button class="filter-btn" onclick="filter('fintech',this)">Fintech</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- VOYA CLIENT MATCH — featured -->
+  <div class="card span-8 ac-blue" data-tags="tool fintech dashboard">
+    <div class="card-visual vbg-blue">
+      <div class="card-icon">⚡</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Interactive Tool</span>
+        <span class="tag tag-demo">Demo</span>
+        <span class="tag tag-type">Fintech</span>
+      </div>
+      <div class="card-title">VOYA Client Match &amp; Reconciliation</div>
+      <div class="card-desc">Browser-based client activity reconciliation tool for a financial advisory firm. Upload two Excel files — a VOYA roster and a YTD production workbook — and fuzzy name matching (Levenshtein algorithm) identifies which clients had business submitted in the past 12 months. Adjustable threshold slider, tabbed results, sortable tables, and CSV export. Eliminates a manual cross-reference process entirely.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">Levenshtein</span>
+          <span class="stack-tag">XLSX</span>
+        </div>
+        <a href="https://github.com/johnfwilliamsiii/voya-subs" target="_blank" class="card-link">
+          View on GitHub
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HNW DASHBOARD -->
+  <div class="card span-4 ac-gold" data-tags="dashboard fintech tool">
+    <div class="card-visual vbg-gold">
+      <div class="card-icon">🏛️</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Data Dashboard</span>
+        <span class="tag tag-demo">Demo · Anonymized</span>
+      </div>
+      <div class="card-title">HNW Family Asset Dashboard</div>
+      <div class="card-desc">Net worth dashboard for a high-net-worth family. Interactive asset class panels — cash, retirement, real estate, private equity, personal assets, liabilities — with a donut allocation chart, per-owner breakdowns, contacts lightbox, and vault reference system. Built alongside a companion Update Tool that generates the dashboard from structured data input.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">Chart.js</span>
+          <span class="stack-tag">JSON</span>
+        </div>
+        <a href="./projects/hnw-dashboard/HNW_Family_Dashboard_Demo.html" class="card-link">
+          Open Demo
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY PRODUCTION DASHBOARD -->
+  <div class="card span-6 ac-amber" data-tags="dashboard fintech">
+    <div class="card-visual vbg-amber">
+      <div class="card-icon">📊</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Reporting Dashboard</span>
+        <span class="tag tag-demo">Demo · Anonymized</span>
+        <span class="tag tag-type">Fintech</span>
+      </div>
+      <div class="card-title">Weekly Production Dashboard</div>
+      <div class="card-desc">Dark-mode executive production dashboard for a 65+ advisor financial firm. Ingests a weekly Excel upload and renders live KPIs, advisor leaderboards, NIGO tracking, weekly trend charts, geographic production mix, and an 11-week pace tracker with adjustable annual goal. Replaces a fully manual reporting process.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">Chart.js</span>
+          <span class="stack-tag">XLSX.js</span>
+        </div>
+        <a href="./projects/weekly-dashboard/Weekly_Production_Dashboard_Demo.html" class="card-link">
+          Open Demo
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM401K -->
+  <div class="card span-6 ac-rose" data-tags="site fintech">
+    <div class="card-visual vbg-rose">
+      <div class="card-icon">💼</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Static Website</span>
+        <span class="tag tag-live">Live in Production</span>
+      </div>
+      <div class="card-title">Team401k.com</div>
+      <div class="card-desc">Full professional marketing site for a 401(k) plan fiduciary advisor. Multi-section single-page site with sticky nav, animated hero, five-objective framework, services grid, three advisor bios, and Calendly scheduling integration. Built from a PDF brochure to a live production site — full design, copy, and deployment.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">Cloudflare Pages</span>
+          <span class="stack-tag">GitHub</span>
+        </div>
+        <a href="https://team401k.com" target="_blank" class="card-link">
+          View Live
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- K12 SUITE LABEL -->
+  <div class="suite-row" id="suite-row-k12">
+    <div class="suite-row-line"></div>
+    <div class="suite-row-label">K12 Retirement Planning System — 3-piece suite</div>
+    <div class="suite-row-line"></div>
+  </div>
+
+  <!-- K12 QUIZ -->
+  <div class="card span-4b ac-teal" data-tags="site strategy tool" data-suite="k12">
+    <div class="card-visual vbg-teal">
+      <div class="card-icon">🎓</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Landing Page · Quiz</span>
+        <span class="tag tag-suite">K12 Suite</span>
+      </div>
+      <div class="card-title">K12 Retirement Quiz &amp; Guide</div>
+      <div class="card-desc">Dark editorial landing page for Michigan K12 educators. 5-question scored quiz with per-question feedback and a results screen, plus a tabbed deep-dive guide across 6 topic areas — pension formula, the DC-only trap, healthcare gap, Social Security, and action steps.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+        <a href="./projects/k12-quiz/k12retirementquiz_1.html" class="card-link">
+          Open
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- K12 CONTENT STRATEGY -->
+  <div class="card span-4b ac-teal" data-tags="strategy tool" data-suite="k12">
+    <div class="card-visual vbg-teal">
+      <div class="card-icon">🧭</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Strategy Document</span>
+        <span class="tag tag-suite">K12 Suite</span>
+      </div>
+      <div class="card-title">MPSERS Content Strategy Guide</div>
+      <div class="card-desc">Multi-panel interactive planning document mapping 32 content topics across a 7-phase narrative arc. Documents 8 behavioral psychology principles — EPPM, identity anchoring, peak-end rule, progressive disclosure — with application rationale, tension map, and full FAQ architecture.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+        <a href="./projects/k12-strategy/mpsers-content-strategy.html" class="card-link">
+          Open
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- K12 ARCHITECTURE -->
+  <div class="card span-4b ac-teal" data-tags="strategy" data-suite="k12">
+    <div class="card-visual vbg-teal">
+      <div class="card-icon">⚙️</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="tag tag-type">Technical Doc</span>
+        <span class="tag tag-suite">K12 Suite</span>
+      </div>
+      <div class="card-title">K12 System Architecture</div>
+      <div class="card-desc">12-section technical reference for a live production platform. Covers the full stack (WordPress, Airtable, Make.com, Softr, SendGrid), 9-step prospect data flow, database schema, automation scenario, known issues log, and 3-phase roadmap. Sticky sidebar nav, print-optimized.</div>
+      <div class="card-footer">
+        <div class="card-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">Technical Writing</span>
+        </div>
+        <a href="./projects/k12-architecture/k12_architecture.html" class="card-link">
+          Open
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid -->
+
+<footer>
+  <span class="footer-l">JOHN F. WILLIAMS III &nbsp;·&nbsp; AI-BUILT WORK</span>
+  <a href="https://johnfwilliamsiii.com" class="footer-r">← Back to portfolio</a>
+</footer>
+
+</div><!-- /shell -->
+
+<script>
+function filter(tag, btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    if(tag==='all'){card.classList.remove('hidden');return}
+    const tags=(card.dataset.tags||'').split(' ');
+    card.classList.toggle('hidden',!tags.includes(tag));
+  });
+  // Show/hide suite label based on whether any suite cards are visible
+  const suiteRow = document.getElementById('suite-row-k12');
+  const suiteCards = document.querySelectorAll('[data-suite="k12"]');
+  const anyVisible = [...suiteCards].some(c=>!c.classList.contains('hidden'));
+  suiteRow.classList.toggle('hidden', !anyVisible);
+}
+</script>
+</body>
+</html>
