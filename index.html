@@ -1,382 +1,802 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Built Work — John F. Williams III</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0b0f14;--bg2:#111620;--bg3:#181e2a;--bg4:#1e2535;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --text:#e2e8f0;--text2:#8b97a8;--text3:#3d4a5c;
-  --gold:#c9a84c;--gold-dim:rgba(201,168,76,0.12);--gold-mid:rgba(201,168,76,0.28);
-  --teal:#2dd4bf;--teal-dim:rgba(45,212,191,0.1);
-  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
-  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
-  --rose:#fb7185;--rose-dim:rgba(251,113,133,0.1);
-  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.1);
-}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.shell{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 32px 100px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>John Williams — Process Improvement & Operations Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* HEADER */
-header{padding:56px 0 48px;border-bottom:1px solid var(--border);margin-bottom:52px}
-.back-link{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);text-decoration:none;margin-bottom:32px;transition:color .2s}
-.back-link:hover{color:var(--gold)}
-.back-link svg{width:14px;height:14px}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
-h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,58px);font-weight:700;line-height:1.04;letter-spacing:-.02em;margin-bottom:16px}
-h1 em{font-style:italic;color:var(--gold)}
-.header-sub{font-size:15px;color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:32px}
-.header-meta{display:flex;gap:12px;flex-wrap:wrap}
-.meta-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:5px 12px;border:1px solid var(--border2);border-radius:100px}
-.meta-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+    :root {
+      --ink: #0a0a0a;
+      --paper: #f5f2ed;
+      --accent: #c8401a;
+      --accent2: #1a4fc8;
+      --muted: #6b6560;
+      --border: #d8d4ce;
+      --card-bg: #ffffff;
+      --tag-bg: #edeae5;
+    }
 
-/* FILTERS */
-.filter-bar{display:flex;gap:6px;margin-bottom:40px;flex-wrap:wrap}
-.filter-btn{padding:7px 16px;border:1px solid var(--border2);border-radius:100px;background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:all .18s;white-space:nowrap}
-.filter-btn:hover{border-color:var(--gold-mid);color:var(--text)}
-.filter-btn.active{background:var(--gold-dim);border-color:var(--gold-mid);color:var(--gold)}
+    html { scroll-behavior: smooth; }
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;align-items:start}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
 
-/* CARDS */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .22s,transform .22s,box-shadow .22s;position:relative}
-.card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
-.card.span-8{grid-column:span 8}
-.card.span-4{grid-column:span 4}
-.card.span-6{grid-column:span 6}
-.card.span-4b{grid-column:span 4}
-.card.span-12{grid-column:span 12}
+    /* ── PASSWORD GATE ── */
+    #gate {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #gate.hidden { opacity: 0; visibility: hidden; }
+    .gate-inner { text-align: center; max-width: 360px; padding: 2rem; }
+    .gate-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; letter-spacing: 0.05em;
+      color: #f5f2ed; line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .gate-sub {
+      font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 2.5rem;
+    }
+    .gate-label {
+      display: block; font-size: 0.75rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #888; margin-bottom: 0.6rem;
+      text-align: left;
+    }
+    .gate-input {
+      width: 100%; padding: 0.9rem 1rem;
+      background: #1a1a1a; border: 1px solid #333;
+      color: #f5f2ed; font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; border-radius: 4px;
+      outline: none; transition: border-color 0.2s;
+      margin-bottom: 1rem;
+    }
+    .gate-input:focus { border-color: var(--accent); }
+    .gate-btn {
+      width: 100%; padding: 0.9rem;
+      background: var(--accent); border: none;
+      color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; border-radius: 4px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .gate-btn:hover { background: #a83415; }
+    .gate-error {
+      margin-top: 0.75rem; font-size: 0.8rem;
+      color: #e05555; opacity: 0; transition: opacity 0.2s;
+    }
+    .gate-error.show { opacity: 1; }
 
-/* top accent line on hover */
-.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .22s;border-radius:12px 12px 0 0}
-.card:hover::after{opacity:1}
-.card.ac-gold::after{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.card.ac-teal::after{background:linear-gradient(90deg,transparent,var(--teal),transparent)}
-.card.ac-blue::after{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.card.ac-amber::after{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
-.card.ac-rose::after{background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
 
-/* visual area */
-.card-visual{height:160px;position:relative;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.card.span-8 .card-visual{height:196px}
-.card-icon{font-size:52px;line-height:1;opacity:.15;transition:opacity .22s,transform .3s;user-select:none}
-.card:hover .card-icon{opacity:.24;transform:scale(1.06)}
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(245,242,237,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 0.08em;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-/* visual bg patterns */
-.vbg-blue{background:linear-gradient(135deg,#070e1a 0%,#0d1e38 100%)}
-.vbg-gold{background:linear-gradient(135deg,#110d03 0%,#1e1608 100%)}
-.vbg-amber{background:linear-gradient(135deg,#110c02 0%,#1c1406 100%)}
-.vbg-teal{background:linear-gradient(135deg,#030f0e 0%,#071e1c 100%)}
-.vbg-rose{background:linear-gradient(135deg,#130508 0%,#200a10 100%)}
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 80px; position: relative;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 3rem 5rem 3rem;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 40px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 0.92; letter-spacing: 0.02em;
+      color: var(--ink); margin-bottom: 1.5rem;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-suffix { letter-spacing: 0.02em; }
+    .cta-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .cta-grid .project-cta { font-size: 0.78rem; padding: 0.45rem 0.85rem; background: none; border: 1px solid var(--accent); color: var(--accent); border-radius: 3px; cursor: pointer; font-family: inherit; letter-spacing: 0.04em; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .cta-grid .project-cta:hover { background: var(--accent); color: #fff; }
+    .hero-desc {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem; line-height: 1.6;
+      color: var(--muted); max-width: 460px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-desc em { color: var(--ink); font-style: italic; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 0.9rem 2rem;
+      background: var(--ink); color: var(--paper);
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      border-radius: 2px; transition: background 0.2s;
+    }
+    .hero-cta:hover { background: var(--accent); }
+    .hero-cta-arrow { font-size: 1rem; }
+    .hero-right {
+      background: var(--ink);
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 4rem 3rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-right-bg {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 40px,
+        rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; position: relative; z-index: 1;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1.75rem 1.5rem;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--accent);
+      line-height: 1; margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.75rem; color: rgba(245,242,237,0.5);
+      letter-spacing: 0.08em; line-height: 1.4;
+    }
+    .hero-tagline {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem; color: rgba(245,242,237,0.9);
+      line-height: 1.4; margin-bottom: 2.5rem;
+      position: relative; z-index: 1;
+    }
+    .hero-tagline em { color: var(--accent); font-style: italic; }
 
-/* subtle grid on visual */
-.card-visual::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 32px,rgba(255,255,255,.018) 32px,rgba(255,255,255,.018) 33px),repeating-linear-gradient(90deg,transparent,transparent 32px,rgba(255,255,255,.018) 32px,rgba(255,255,255,.018) 33px);pointer-events:none}
+    /* ── SECTION BASE ── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 6rem 3rem; }
+    .section-header { margin-bottom: 4rem; }
+    .section-number {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-number::before {
+      content: ''; display: block; width: 32px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1; letter-spacing: 0.02em;
+    }
 
-/* card body */
-.card-body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
-.card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
-.tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
-.tag-type{background:rgba(255,255,255,.06);color:var(--text2)}
-.tag-live{background:rgba(63,185,80,.1);color:#3fb950;border:1px solid rgba(63,185,80,.18)}
-.tag-demo{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-mid)}
-.tag-suite{background:rgba(45,212,191,.1);color:var(--teal);border:1px solid rgba(45,212,191,.2)}
-.card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;line-height:1.2;margin-bottom:8px;letter-spacing:-.01em;color:var(--text)}
-.card.span-8 .card-title{font-size:21px}
-.card-desc{font-size:12.5px;color:var(--text2);line-height:1.68;flex:1;margin-bottom:16px}
-.card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--border)}
-.card-stack{display:flex;gap:4px;flex-wrap:wrap}
-.stack-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--text3);padding:2px 6px;background:rgba(255,255,255,.04);border-radius:3px}
-.card-link{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-decoration:none;transition:color .18s;flex-shrink:0;white-space:nowrap}
-.card-link:hover{color:var(--gold)}
-.card-link svg{width:11px;height:11px;transition:transform .18s}
-.card-link:hover svg{transform:translate(2px,-2px)}
+    /* ── ABOUT ── */
+    #about { background: var(--ink); color: var(--paper); }
+    #about .section-title { color: var(--paper); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-body p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem; line-height: 1.7;
+      color: rgba(245,242,237,0.8); margin-bottom: 1.25rem;
+    }
+    .about-body p em { color: var(--accent); font-style: italic; }
+    .about-aside { padding-top: 1rem; }
+    .aside-block { margin-bottom: 2.5rem; }
+    .aside-label {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,242,237,0.35); margin-bottom: 0.75rem;
+    }
+    .aside-content {
+      font-size: 0.95rem; color: rgba(245,242,237,0.75);
+      line-height: 1.6;
+    }
+    .contact-link {
+      color: var(--accent); text-decoration: none;
+      border-bottom: 1px solid transparent; transition: border-color 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); }
 
-/* SUITE GROUPING */
-.suite-row{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:6px 0 2px;margin-top:6px}
-.suite-row-line{flex:1;height:1px;background:var(--border)}
-.suite-row-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);white-space:nowrap;padding:0 4px}
+    /* ── PROJECTS ── */
+    #projects { background: var(--paper); }
+    .projects-grid {
+      display: grid; gap: 2px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .project-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
+    .project-header {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: start; gap: 1rem;
+      padding: 2rem 2.5rem; cursor: pointer;
+      user-select: none;
+    }
+    .project-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
+    .project-tag {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); background: #fdf0ec;
+      padding: 0.2rem 0.6rem; border-radius: 2px;
+    }
+    .project-year {
+      font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em;
+    }
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 0.03em;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .project-subtitle {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.5;
+    }
+    .project-toggle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--tag-bg); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, transform 0.3s;
+      flex-shrink: 0; margin-top: 0.25rem;
+      font-size: 1.1rem; color: var(--ink);
+    }
+    .project-card.open .project-toggle { background: var(--ink); color: var(--paper); transform: rotate(45deg); }
+    .project-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card.open .project-body { max-height: 2400px; }
+    .project-body-inner {
+      padding: 0 2.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+      padding-top: 2rem;
+    }
+    .project-body-inner p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.05rem; line-height: 1.7;
+      color: var(--muted); margin-bottom: 1.5rem;
+    }
+    .project-highlights { margin-bottom: 1.5rem; }
+    .project-highlights li {
+      font-size: 0.9rem; color: var(--ink); line-height: 1.6;
+      padding: 0.4rem 0 0.4rem 1.25rem; position: relative;
+      border-bottom: 1px solid var(--tag-bg);
+    }
+    .project-highlights li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent); font-size: 0.75rem;
+    }
+    .stack-label {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.6rem;
+    }
+    .stack-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .stack-tag {
+      font-size: 0.75rem; padding: 0.25rem 0.65rem;
+      background: var(--tag-bg); color: var(--ink);
+      border-radius: 2px; letter-spacing: 0.03em;
+    }
+    .project-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      text-decoration: none; border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.1rem; transition: gap 0.2s;
+    }
+    .project-cta:hover { gap: 0.75rem; }
 
-/* DIVIDER */
-.grid-div{grid-column:1/-1;height:1px;background:var(--border);margin:10px 0}
+    /* ── SKILLS ── */
+    #skills { background: var(--ink); }
+    #skills .section-title { color: var(--paper); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .skill-group {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem;
+    }
+    .skill-group-title {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.25rem;
+    }
+    .skill-list { list-style: none; }
+    .skill-list li {
+      font-size: 0.9rem; color: rgba(245,242,237,0.7);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .skill-list li::before { content: '·'; color: var(--accent); font-size: 1.2rem; }
 
-/* HIDDEN */
-.card.hidden,.suite-row.hidden,.grid-div.hidden{display:none!important}
+    /* ── CONTACT ── */
+    #contact { background: var(--paper); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .contact-left .section-title { margin-bottom: 1.5rem; }
+    .contact-left p {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem; color: var(--muted); line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .contact-email {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: 0.05em;
+      color: var(--accent); text-decoration: none;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.1rem; transition: color 0.2s, border-color 0.2s;
+    }
+    .contact-email:hover { color: var(--ink); border-color: var(--ink); }
+    .contact-right { padding: 3rem; background: var(--ink); border-radius: 2px; }
+    .contact-detail { margin-bottom: 1.75rem; }
+    .contact-detail-label {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,242,237,0.35); margin-bottom: 0.35rem;
+    }
+    .contact-detail-value {
+      font-size: 0.95rem; color: rgba(245,242,237,0.85);
+    }
 
-/* FOOTER */
-footer{padding:32px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:20px}
-.footer-l{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.06em}
-.footer-r{font-size:11px;color:var(--text3);text-decoration:none;transition:color .18s}
-.footer-r:hover{color:var(--gold)}
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.1em;
+      color: rgba(245,242,237,0.4);
+    }
+    .footer-note {
+      font-size: 0.75rem; color: rgba(245,242,237,0.3);
+      letter-spacing: 0.05em;
+    }
 
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.card{animation:fadeUp .5s ease both}
-.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.09s}
-.card:nth-child(3){animation-delay:.14s}.card:nth-child(4){animation-delay:.19s}
-.card:nth-child(5){animation-delay:.24s}.card:nth-child(6){animation-delay:.29s}
-.card:nth-child(7){animation-delay:.34s}
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero-name    { animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
+    .hero-desc    { animation: fadeUp 0.6s ease both; animation-delay: 0.3s; }
+    .hero-cta     { animation: fadeUp 0.6s ease both; animation-delay: 0.4s; }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .card.span-8,.card.span-4,.card.span-6,.card.span-4b{grid-column:1/-1}
-  .shell{padding:0 20px 60px}
-  h1{font-size:32px}
-}
-</style>
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 320px; }
+      .about-grid, .contact-grid, .skills-grid { grid-template-columns: 1fr; }
+      .section-inner { padding: 4rem 1.5rem; }
+      .hero-left { padding: 3rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="shell">
 
-<header>
-  <a href="https://johnfwilliamsiii.com" class="back-link">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
-    johnfwilliamsiii.com
-  </a>
-  <div class="eyebrow">AI-Built Work</div>
-  <h1>Tools, systems &amp;<br><em>interfaces</em> I built<br>with AI.</h1>
-  <p class="header-sub">Interactive tools, data platforms, and strategic documents built using Claude and other AI tools — across financial services, fintech, and operations.</p>
-  <div class="header-meta">
-    <span class="meta-pill"><span class="meta-dot"></span>7 Projects</span>
-    <span class="meta-pill"><span class="meta-dot"></span>HTML · CSS · JavaScript</span>
-    <span class="meta-pill"><span class="meta-dot"></span>2025 – 2026</span>
-  </div>
-</header>
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">JW</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filter('all',this)">All work</button>
-  <button class="filter-btn" onclick="filter('tool',this)">Interactive tools</button>
-  <button class="filter-btn" onclick="filter('dashboard',this)">Dashboards</button>
-  <button class="filter-btn" onclick="filter('site',this)">Sites &amp; pages</button>
-  <button class="filter-btn" onclick="filter('strategy',this)">Strategy &amp; docs</button>
-  <button class="filter-btn" onclick="filter('fintech',this)">Fintech</button>
-</div>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Process Improvement · Operations Systems · Automation</div>
+      <h1 class="hero-name">John<br><span>F.</span><br>Williams<br><span class="hero-suffix">III</span></h1>
+      <p class="hero-desc">I turn messy, manual workflows into <em>documented, automated systems</em> — the SOPs teams run on, the dashboards leadership actually checks, and the no-code and AI automations that take repetitive work off people.</p>
 
-<div class="grid" id="grid">
-
-  <!-- VOYA CLIENT MATCH — featured -->
-  <div class="card span-8 ac-blue" data-tags="tool fintech dashboard">
-    <div class="card-visual vbg-blue">
-      <div class="card-icon">⚡</div>
     </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Interactive Tool</span>
-        <span class="tag tag-demo">Demo</span>
-        <span class="tag tag-type">Fintech</span>
-      </div>
-      <div class="card-title">VOYA Client Match &amp; Reconciliation</div>
-      <div class="card-desc">Browser-based client activity reconciliation tool for a financial advisory firm. Upload two Excel files — a VOYA roster and a YTD production workbook — and fuzzy name matching (Levenshtein algorithm) identifies which clients had business submitted in the past 12 months. Adjustable threshold slider, tabbed results, sortable tables, and CSV export. Eliminates a manual cross-reference process entirely.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">JavaScript</span>
-          <span class="stack-tag">Levenshtein</span>
-          <span class="stack-tag">XLSX</span>
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <p class="hero-tagline">From <em>broken process</em> to <em>working system</em> — end to end.</p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">99%</div>
+          <div class="stat-label">Reduction in reporting verification time</div>
         </div>
-        <a href="https://github.com/johnfwilliamsiii/voya-subs" target="_blank" class="card-link">
-          View on GitHub
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- HNW DASHBOARD -->
-  <div class="card span-4 ac-gold" data-tags="dashboard fintech tool">
-    <div class="card-visual vbg-gold">
-      <div class="card-icon">🏛️</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Data Dashboard</span>
-        <span class="tag tag-demo">Demo · Anonymized</span>
-      </div>
-      <div class="card-title">HNW Family Asset Dashboard</div>
-      <div class="card-desc">Net worth dashboard for a high-net-worth family. Interactive asset class panels — cash, retirement, real estate, private equity, personal assets, liabilities — with a donut allocation chart, per-owner breakdowns, contacts lightbox, and vault reference system. Built alongside a companion Update Tool that generates the dashboard from structured data input.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">Chart.js</span>
-          <span class="stack-tag">JSON</span>
+        <div class="stat-card">
+          <div class="stat-num">39%</div>
+          <div class="stat-label">Boost in annual advisor production</div>
         </div>
-        <a href="./projects/hnw-dashboard/HNW_Family_Dashboard_Demo.html" class="card-link">
-          Open Demo
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEKLY PRODUCTION DASHBOARD -->
-  <div class="card span-6 ac-amber" data-tags="dashboard fintech">
-    <div class="card-visual vbg-amber">
-      <div class="card-icon">📊</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Reporting Dashboard</span>
-        <span class="tag tag-demo">Demo · Anonymized</span>
-        <span class="tag tag-type">Fintech</span>
-      </div>
-      <div class="card-title">Weekly Production Dashboard</div>
-      <div class="card-desc">Dark-mode executive production dashboard for a 65+ advisor financial firm. Ingests a weekly Excel upload and renders live KPIs, advisor leaderboards, NIGO tracking, weekly trend charts, geographic production mix, and an 11-week pace tracker with adjustable annual goal. Replaces a fully manual reporting process.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">Chart.js</span>
-          <span class="stack-tag">XLSX.js</span>
+        <div class="stat-card">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Years across operations, process design & automation</div>
         </div>
-        <a href="./projects/weekly-dashboard/Weekly_Production_Dashboard_Demo.html" class="card-link">
-          Open Demo
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- TEAM401K -->
-  <div class="card span-6 ac-rose" data-tags="site fintech">
-    <div class="card-visual vbg-rose">
-      <div class="card-icon">💼</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Static Website</span>
-        <span class="tag tag-live">Live in Production</span>
-      </div>
-      <div class="card-title">Team401k.com</div>
-      <div class="card-desc">Full professional marketing site for a 401(k) plan fiduciary advisor. Multi-section single-page site with sticky nav, animated hero, five-objective framework, services grid, three advisor bios, and Calendly scheduling integration. Built from a PDF brochure to a live production site — full design, copy, and deployment.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">Cloudflare Pages</span>
-          <span class="stack-tag">GitHub</span>
+        <div class="stat-card">
+          <div class="stat-num">$250K</div>
+          <div class="stat-label">Saved through reporting system redesign</div>
         </div>
-        <a href="https://team401k.com" target="_blank" class="card-link">
-          View Live
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- K12 SUITE LABEL -->
-  <div class="suite-row" id="suite-row-k12">
-    <div class="suite-row-line"></div>
-    <div class="suite-row-label">K12 Retirement Planning System — 3-piece suite</div>
-    <div class="suite-row-line"></div>
-  </div>
-
-  <!-- K12 QUIZ -->
-  <div class="card span-4b ac-teal" data-tags="site strategy tool" data-suite="k12">
-    <div class="card-visual vbg-teal">
-      <div class="card-icon">🎓</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Landing Page · Quiz</span>
-        <span class="tag tag-suite">K12 Suite</span>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-number">01 — About</div>
+        <h2 class="section-title">Builder.<br>Strategist.<br>Operator.</h2>
       </div>
-      <div class="card-title">K12 Retirement Quiz &amp; Guide</div>
-      <div class="card-desc">Dark editorial landing page for Michigan K12 educators. 5-question scored quiz with per-question feedback and a results screen, plus a tabbed deep-dive guide across 6 topic areas — pension formula, the DC-only trap, healthcare gap, Social Security, and action steps.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">CSS</span>
-          <span class="stack-tag">JavaScript</span>
+      <div class="about-grid">
+        <div class="about-body">
+          <p>I sit at the intersection of <em>operations, process design, and automation</em> — and I build documented, working systems from scratch.</p>
+          <p>My background spans 20+ years across financial services, higher education, insurance, and SaaS. What stays constant: I find the friction, write down how the work should run, design the fix, and ship it. Whether that's a reporting pipeline that takes 24 hours and shouldn't, a platform that doesn't exist yet, or a handoff between teams that keeps dropping the ball.</p>
+          <p>I'm most effective when given a problem, clear goals, and the autonomy to build toward them — documenting as I go so the system holds up after I've moved on to the next thing.</p>
         </div>
-        <a href="./projects/k12-quiz/k12retirementquiz_1.html" class="card-link">
-          Open
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- K12 CONTENT STRATEGY -->
-  <div class="card span-4b ac-teal" data-tags="strategy tool" data-suite="k12">
-    <div class="card-visual vbg-teal">
-      <div class="card-icon">🧭</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Strategy Document</span>
-        <span class="tag tag-suite">K12 Suite</span>
-      </div>
-      <div class="card-title">MPSERS Content Strategy Guide</div>
-      <div class="card-desc">Multi-panel interactive planning document mapping 32 content topics across a 7-phase narrative arc. Documents 8 behavioral psychology principles — EPPM, identity anchoring, peak-end rule, progressive disclosure — with application rationale, tension map, and full FAQ architecture.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">CSS</span>
-          <span class="stack-tag">JavaScript</span>
+        <div class="about-aside">
+          <div class="aside-block">
+            <div class="aside-label">Based in</div>
+            <div class="aside-content">Saline, Michigan<br>Open to hybrid roles in Michigan</div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">Target roles</div>
+            <div class="aside-content">Process Improvement · Revenue / Sales Operations<br>Systems & Workflow Automation</div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">Industries</div>
+            <div class="aside-content">Financial Services · Higher Education · SaaS<br>Process work travels — open across industries</div>
+          </div>
+          <div class="aside-block">
+            <div class="aside-label">Get in touch</div>
+            <div class="aside-content"><a href="mailto:jwmi01@gmail.com" class="contact-link">jwmi01@gmail.com</a></div>
+          </div>
         </div>
-        <a href="./projects/k12-strategy/mpsers-content-strategy.html" class="card-link">
-          Open
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- K12 ARCHITECTURE -->
-  <div class="card span-4b ac-teal" data-tags="strategy" data-suite="k12">
-    <div class="card-visual vbg-teal">
-      <div class="card-icon">⚙️</div>
-    </div>
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="tag tag-type">Technical Doc</span>
-        <span class="tag tag-suite">K12 Suite</span>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-number">02 — Projects</div>
+        <h2 class="section-title">Selected Work</h2>
       </div>
-      <div class="card-title">K12 System Architecture</div>
-      <div class="card-desc">12-section technical reference for a live production platform. Covers the full stack (WordPress, Airtable, Make.com, Softr, SendGrid), 9-step prospect data flow, database schema, automation scenario, known issues log, and 3-phase roadmap. Sticky sidebar nav, print-optimized.</div>
-      <div class="card-footer">
-        <div class="card-stack">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">Technical Writing</span>
+      <div class="projects-grid">
+
+        <!-- K12 -->
+        <div class="project-card" id="card-k12">
+          <div class="project-header" onclick="toggleCard('card-k12')">
+            <div>
+              <div class="project-meta">
+                <span class="project-tag">Platform Build</span>
+                <span class="project-year">2025 – Present</span>
+              </div>
+              <div class="project-title">K12 Retirement Planning</div>
+              <div class="project-subtitle">Full-stack digital retirement planning platform for Michigan public school educators (MPSERS members)</div>
+            </div>
+            <button class="project-toggle" aria-label="Expand project">+</button>
+          </div>
+          <div class="project-body">
+            <div class="project-body-inner">
+              <p>Independently conceived and built a complete digital retirement planning system targeting Michigan's 380,000+ public school employees — from market research and product strategy through full technical execution. Built entirely alongside a full-time role.</p>
+              <ul class="project-highlights">
+                <li>Architected a 5-table Airtable CRM with Make.com automation including webhook/JSON parsing and multi-step advisor notification workflow</li>
+                <li>Built a Softr.io client portal with role-based access, integrated with the Airtable backend</li>
+                <li>Designed the Retirement Success Score™ — a proprietary 0–40 composite scoring system across four planning dimensions used as the lead generation engine</li>
+                <li>Developed a 30-video content library architecture segmented by educator career stage and hire date — wrote all video scripts, handled all photography for Sean's brand assets, built and operated the full recording studio setup (green screen, lighting, microphones), and personally directed, recorded, and edited all current videos in the system</li>
+                <li>Full deployment stack: WordPress/Elementor, Cloudflare Pages, cPanel, GitHub, SendGrid with domain authentication</li>
+              </ul>
+              <div class="stack-label">Tech Stack</div>
+              <div class="stack-tags">
+                <span class="stack-tag">WordPress / Elementor</span>
+                <span class="stack-tag">Airtable</span>
+                <span class="stack-tag">Make.com</span>
+                <span class="stack-tag">Softr.io</span>
+                <span class="stack-tag">SendGrid</span>
+                <span class="stack-tag">Cloudflare Pages</span>
+                <span class="stack-tag">GitHub</span>
+                <span class="stack-tag">cPanel</span>
+              </div>
+              <div class="stack-label" style="margin-top:1.2rem;">View Live Site</div>
+              <div class="cta-grid">
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/', 'K12 — Home')">Home Page →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/meet-sean/', 'K12 — Meet Sean')">Meet Sean →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/video-library/', 'K12 — Video Library')">Video Library →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/district-partner/', 'K12 — District Partner')">District Partner →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/success-planner/', 'K12 — Success Planner')">Success Planner →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/client-dashboard/', 'K12 — Client Dashboard')">Client Dashboard →</button>
+                <button class="project-cta" onclick="openModal('https://k12retirementplanning.com/executive-presentation/', 'K12 — Executive Presentation')">Executive Presentation →</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="./projects/k12-architecture/k12_architecture.html" class="card-link">
-          Open
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 10L10 2M10 2H4M10 2v6"/></svg>
-        </a>
+
+        <!-- GLP Reporting -->
+        <div class="project-card" id="card-glp">
+          <div class="project-header" onclick="toggleCard('card-glp')">
+            <div>
+              <div class="project-meta">
+                <span class="project-tag">Operations & Automation</span>
+                <span class="project-year">2021 – Present</span>
+              </div>
+              <div class="project-title">Sales Reporting Modernization</div>
+              <div class="project-subtitle">End-to-end redesign of a broken sales reporting system supporting 130+ financial advisors</div>
+            </div>
+            <button class="project-toggle" aria-label="Expand project">+</button>
+          </div>
+          <div class="project-body">
+            <div class="project-body-inner">
+              <p>Inherited a manual sales reporting process that took 24+ hours to verify and was riddled with data retrieval failures. Redesigned it from the ground up into a fully operational production intelligence system — the single source of truth for over 74,000 annual business submissions, 393 agents, and $440M+ in annual production volume across 14 transaction types. The system drives weekly executive reporting, agent leaderboards, multi-year trend comparisons, and annualized pace projections — replacing fragmented manual processes with automated, always-current data.</p>
+              <ul class="project-highlights">
+                <li>Reduced reporting verification time from 24+ hours to near-instantaneous through full process redesign and automation</li>
+                <li>Powers all company sales contests — standings, category leaders, and real-time rankings are pulled directly from the system each week</li>
+                <li>Drives a weekly production newsletter distributed to the full advisor base, spotlighting leaders across periodic, transfer, and life insurance categories</li>
+                <li>Integrated Calendly appointment data to generate forward-looking production projections, connecting scheduled advisor activity to anticipated output</li>
+                <li>Led SharePoint/Power Automate modernization: production dashboard, Fixed Annuity data entry form with conditional logic, and a formal management proposal to firm principals</li>
+                <li>Cited as key contributor to a 39% boost in annual production across the advisor base</li>
+              </ul>
+              <div class="stack-label">Tech Stack</div>
+              <div class="stack-tags">
+                <span class="stack-tag">Microsoft SharePoint</span>
+                <span class="stack-tag">Power Automate</span>
+                <span class="stack-tag">Advanced Excel</span>
+                <span class="stack-tag">DocuSign</span>
+                <span class="stack-tag">Formstack</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team401k -->
+        <div class="project-card" id="card-team401k">
+          <div class="project-header" onclick="toggleCard('card-team401k')">
+            <div>
+              <div class="project-meta">
+                <span class="project-tag">Web Development</span>
+                <span class="project-year">2026</span>
+              </div>
+              <div class="project-title">Team401k.com</div>
+              <div class="project-subtitle">Lead generation website for a 401(k) plan advisor built from a PDF brochure to a live production site</div>
+            </div>
+            <button class="project-toggle" aria-label="Expand project">+</button>
+          </div>
+          <div class="project-body">
+            <div class="project-body-inner">
+              <p>Designed and built a complete lead generation website for Nick Pagano, a 401(k) plan advisor at GLP Financial Group. Started from a PDF brochure and delivered a live, professional site with service agreements and client acquisition infrastructure.</p>
+              <ul class="project-highlights">
+                <li>Built from PDF brochure to live production site — full design, copy, and development</li>
+                <li>Drafted three formal service agreement options governing the client relationship (flat fee, retainer, per-client acquisition fee) under Michigan law</li>
+                <li>Deployed and maintained via Cloudflare Pages and GitHub</li>
+              </ul>
+              <div class="stack-label">Tech Stack</div>
+              <div class="stack-tags">
+                <span class="stack-tag">WordPress / Elementor</span>
+                <span class="stack-tag">Cloudflare Pages</span>
+                <span class="stack-tag">GitHub</span>
+              </div>
+              <button class="project-cta" onclick="openModal('Team401k_Site.html', 'team401k.com — 401(k) Consulting Lead Gen Site')">View live site →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CodeREADr / EMU -->
+        <div class="project-card" id="card-codereadr">
+          <div class="project-header" onclick="toggleCard('card-codereadr')">
+            <div>
+              <div class="project-meta">
+                <span class="project-tag">Platform Scale-Up</span>
+                <span class="project-year">2012 – 2018</span>
+              </div>
+              <div class="project-title">EMU Attendance & Data Platform</div>
+              <div class="project-subtitle">QR-based attendance tracking system scaled from 2 to 140 personal mobile devices across a 23,000-student campus — eliminating dedicated hardware costs and enabling scanning anywhere on campus</div>
+            </div>
+            <button class="project-toggle" aria-label="Expand project">+</button>
+          </div>
+          <div class="project-body">
+            <div class="project-body-inner">
+              <p>Spearheaded the design and deployment of a QR code-based attendance and data collection system at Eastern Michigan University's Holman Success Center. The platform ran on personal smartphones — staff, students, and volunteers used a purpose-built mobile scanning app on devices they already owned, eliminating the need for dedicated hardware entirely. What began as a two-device pilot grew into a campus-wide system logging over 144,000 scans across dozens of event types — and produced documented academic outcomes.</p>
+              <ul class="project-highlights">
+                <li>Scaled from 2 to 140 active scanning locations using personal mobile phones running a purpose-built app — no dedicated hardware required, enabling flexible deployment anywhere on campus across study tables, Gen Ed events, textbook checkout, tutoring, and supplemental instruction programs</li>
+                <li>Demonstrated measurable GPA improvement for at-risk student-athletes and resulted in two Greek organizations being removed from academic probation</li>
+                <li>Adopted by the EMU Athletic Department to support NCAA Division I academic reporting requirements — providing reliable attendance and engagement data for student-athlete eligibility and compliance tracking</li>
+                <li>Built a QR-coded student ID database, designed validation workflows, and administered the full system end-to-end</li>
+                <li>Recognized by CodeREADr in a published case study — described as "an entrepreneurial graduate assistant" who made the program "enormously successful"</li>
+                <li>Saved the university $250K through an optimized shared reporting system adopted institution-wide as a template</li>
+              </ul>
+              <div class="stack-label">Tech Stack</div>
+              <div class="stack-tags">
+                <span class="stack-tag">CodeREADr</span>
+                <span class="stack-tag">QR Code Systems</span>
+                <span class="stack-tag">Validation Databases</span>
+                <span class="stack-tag">Mobile Data Collection</span>
+                <span class="stack-tag">Reporting & Analytics</span>
+              </div>
+              <a href="https://www.codereadr.com/blog/attendance-tracker-case-study/" target="_blank" class="project-cta">Read the published case study →</a>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-number">03 — Skills</div>
+        <h2 class="section-title">What I<br>Bring</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-group-title">Process & Operations</div>
+          <ul class="skill-list">
+            <li>Process Improvement & Workflow Redesign</li>
+            <li>SOPs & Knowledge-Base Documentation</li>
+            <li>Dashboards & Reporting Frameworks</li>
+            <li>Data Cleanup & Standardization</li>
+            <li>Revenue / Sales Operations</li>
+            <li>Advanced Excel & Google Sheets</li>
+            <li>Project-Management Tools (Trello, ClickUp-style)</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Platforms & Automation</div>
+          <ul class="skill-list">
+            <li>Airtable</li>
+            <li>Make.com (Integromat)</li>
+            <li>Softr.io</li>
+            <li>Power Automate</li>
+            <li>Zapier</li>
+            <li>SendGrid</li>
+            <li>Formstack</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Web & Deployment</div>
+          <ul class="skill-list">
+            <li>WordPress / Elementor</li>
+            <li>HTML / CSS / JavaScript</li>
+            <li>Cloudflare Pages</li>
+            <li>GitHub</li>
+            <li>cPanel</li>
+            <li>SharePoint</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div class="contact-left">
+          <div class="section-number">04 — Contact</div>
+          <h2 class="section-title">Let's<br>Talk.</h2>
+          <p>I'm currently exploring new roles in process improvement, revenue and sales operations, and systems automation — hybrid or remote in Michigan. If something here resonates, I'd love to connect.</p>
+          <a href="mailto:jwmi01@gmail.com" class="contact-email">jwmi01@gmail.com</a>
+        </div>
+        <div class="contact-right">
+          <div class="contact-detail">
+            <div class="contact-detail-label">Location</div>
+            <div class="contact-detail-value">Saline, Michigan — Open to hybrid</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value">734-660-1382</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">LinkedIn</div>
+            <div class="contact-detail-value">linkedin.com/in/johnfwilliamsiii</div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Availability</div>
+            <div class="contact-detail-value">Actively exploring new roles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">John F. Williams III</div>
+    <div class="footer-note">Process Improvement · Operations · Automation</div>
+  </footer>
+
+  <script>
+    // ── PROJECT CARDS ──
+    function toggleCard(id) {
+      const card = document.getElementById(id);
+      const wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.project-card').forEach(c => c.classList.remove('open'));
+      if (!wasOpen) card.classList.add('open');
+    }
+  </script>
+
+  <!-- SITE PREVIEW MODAL -->
+  <div id="site-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.82);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="position:relative;width:92vw;height:88vh;max-width:1300px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.08);">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem;background:#111;border-bottom:1px solid rgba(255,255,255,0.07);">
+        <span id="modal-label" style="font-size:0.78rem;color:#888;font-family:monospace;letter-spacing:0.05em;"></span>
+        <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;color:#aaa;font-size:1.3rem;line-height:1;padding:0.2rem 0.5rem;border-radius:4px;transition:color 0.2s,background 0.2s;" onmouseover="this.style.color='#fff';this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.color='#aaa';this.style.background='none'">✕</button>
+      </div>
+      <iframe id="modal-frame" src="" style="width:100%;height:calc(100% - 42px);border:none;"></iframe>
     </div>
   </div>
 
-</div><!-- /grid -->
-
-<footer>
-  <span class="footer-l">JOHN F. WILLIAMS III &nbsp;·&nbsp; AI-BUILT WORK</span>
-  <a href="https://johnfwilliamsiii.com" class="footer-r">← Back to portfolio</a>
-</footer>
-
-</div><!-- /shell -->
-
-<script>
-function filter(tag, btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card=>{
-    if(tag==='all'){card.classList.remove('hidden');return}
-    const tags=(card.dataset.tags||'').split(' ');
-    card.classList.toggle('hidden',!tags.includes(tag));
-  });
-  // Show/hide suite label based on whether any suite cards are visible
-  const suiteRow = document.getElementById('suite-row-k12');
-  const suiteCards = document.querySelectorAll('[data-suite="k12"]');
-  const anyVisible = [...suiteCards].some(c=>!c.classList.contains('hidden'));
-  suiteRow.classList.toggle('hidden', !anyVisible);
-}
-</script>
+  <script>
+    function openModal(src, label) {
+      document.getElementById('modal-frame').src = src;
+      document.getElementById('modal-label').textContent = label;
+      const modal = document.getElementById('site-modal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('site-modal').style.display = 'none';
+      document.getElementById('modal-frame').src = '';
+      document.body.style.overflow = '';
+    }
+    document.getElementById('site-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
 </body>
-</html>
+</html> 
