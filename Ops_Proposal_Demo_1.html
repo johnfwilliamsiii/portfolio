@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Platform Proposal — Sample</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B3A5C;--navy-deep:#122840;--navy-mid:#2A5080;--navy-light:#3D6B94;
+  --gold:#C8922A;--gold-light:#E0AD4E;--gold-dim:rgba(200,146,42,0.1);--gold-mid:rgba(200,146,42,0.28);
+  --cream:#F7F4EF;--cream2:#EDE9E1;
+  --ink:#1A1A24;--ink2:#3D3D4D;--ink3:#6B6B7A;
+  --border:rgba(27,58,92,0.1);--border2:rgba(27,58,92,0.2);
+  --green:#1D7A45;--green-dim:rgba(29,122,69,0.08);--green-mid:rgba(29,122,69,0.25);
+  --red-dim:rgba(180,40,40,0.08);--red:#B42828;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:'Source Sans 3',sans-serif;font-weight:400;color:var(--ink);background:#fff;line-height:1.6}
+
+@media print{
+  .no-print{display:none!important}
+  .pb{page-break-before:always}
+  body{font-size:13px}
+  .cover{min-height:100vh!important}
+}
+
+/* ── PRINT BAR ── */
+.print-bar{background:var(--navy-deep);padding:10px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:999}
+.print-bar span{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:.08em;font-family:'Source Code Pro',monospace}
+.print-btn{background:var(--gold);color:#fff;border:none;padding:7px 20px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.05em}
+.print-btn:hover{background:var(--gold-light)}
+
+/* ── COVER ── */
+.cover{background:var(--navy-deep);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;pointer-events:none}
+.cover-stripe{position:absolute;top:0;left:0;width:5px;height:100%;background:linear-gradient(180deg,var(--gold) 0%,var(--gold-light) 100%)}
+.cover-top{padding:48px 64px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.cover-logo{height:48px;object-fit:contain;filter:brightness(0) invert(1)}
+.cover-date{font-family:'Source Code Pro',monospace;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+.cover-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 64px}
+.cover-eyebrow{font-family:'Source Code Pro',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px}
+.cover-title{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;color:#fff;line-height:1.05;max-width:700px;margin-bottom:6px}
+.cover-subtitle{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:rgba(255,255,255,0.45);margin-bottom:44px;max-width:620px;line-height:1.3}
+.cover-rule{width:72px;height:2px;background:var(--gold);margin-bottom:44px}
+.cover-meta{display:grid;grid-template-columns:repeat(3,auto);width:fit-content;gap:0}
+.cmi{padding:14px 36px 14px 0;border-right:1px solid rgba(255,255,255,0.1);margin-right:36px}
+.cmi:last-child{border-right:none;margin-right:0}
+.cmi-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px}
+.cmi-value{font-size:14px;font-weight:500;color:rgba(255,255,255,0.85)}
+.cover-bottom{padding:28px 64px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.07);margin-top:auto}
+.cover-footer-text{font-size:11px;color:rgba(255,255,255,0.25);font-family:'Source Code Pro',monospace;letter-spacing:.06em}
+.confidential{display:flex;align-items:center;gap:7px;padding:5px 13px;border:1px solid rgba(200,146,42,0.35);border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
+
+/* ── DOCUMENT SHELL ── */
+.doc{max-width:960px;margin:0 auto;padding:0 64px 120px}
+
+/* ── TOC ── */
+.toc-wrap{padding:80px 64px;max-width:960px;margin:0 auto}
+.toc-eyebrow{font-family:'Source Code Pro',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.toc-head{font-family:'Playfair Display',serif;font-size:30px;color:var(--navy);margin-bottom:48px;padding-bottom:18px;border-bottom:2px solid var(--navy-deep)}
+.toc-row{display:flex;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit}
+.toc-row:hover .toc-lbl{color:var(--navy)}
+.toc-num{font-family:'Source Code Pro',monospace;font-size:11px;color:var(--gold);width:28px;flex-shrink:0}
+.toc-lbl{font-size:15px;font-weight:500;color:var(--ink2);flex:1;transition:color .15s}
+.toc-dots{flex:1;border-bottom:1px dotted var(--border2);margin:0 12px;position:relative;top:-3px}
+.toc-pg{font-family:'Source Code Pro',monospace;font-size:11px;color:var(--ink3)}
+.toc-sub{font-size:12px;color:var(--ink3);margin-top:2px;padding-left:28px}
+
+/* ── SECTIONS ── */
+.section{padding:72px 0 32px;border-top:1px solid var(--border)}
+.section:first-child{border-top:none;padding-top:80px}
+.s-eyebrow{font-family:'Source Code Pro',monospace;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.s-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--navy-deep);line-height:1.12;margin-bottom:26px}
+.s-lead{font-size:17px;font-weight:300;color:var(--ink2);line-height:1.75;max-width:720px;margin-bottom:40px;font-style:italic}
+h3{font-family:'Playfair Display',serif;font-size:21px;font-weight:600;color:var(--navy);margin:40px 0 14px}
+h4{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy-light);margin:30px 0 10px}
+p{font-size:15px;color:var(--ink2);line-height:1.78;margin-bottom:16px;max-width:760px}
+ul,ol{margin:10px 0 16px 20px;max-width:740px}
+li{font-size:15px;color:var(--ink2);line-height:1.75;margin-bottom:4px}
+strong{font-weight:600;color:var(--navy)}
+
+/* ── CALLOUT ── */
+.callout{background:var(--navy-deep);border-radius:10px;padding:32px 36px;margin:32px 0;position:relative;overflow:hidden}
+.callout::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)}
+.callout .cl{font-family:'Source Code Pro',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
+.callout p{color:rgba(255,255,255,0.78);margin-bottom:0;font-size:16px;max-width:none}
+.callout strong{color:#fff}
+
+/* ── STAT CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:32px 0}
+.sc{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:22px 24px}
+.sc.dark{background:var(--navy-deep);border-color:transparent}
+.sc-num{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;color:var(--navy);line-height:1;margin-bottom:5px}
+.sc.dark .sc-num{color:var(--gold-light)}
+.sc-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.sc.dark .sc-lbl{color:rgba(255,255,255,0.4)}
+.sc-sub{font-size:12px;color:var(--ink3);margin-top:6px;line-height:1.45}
+.sc.dark .sc-sub{color:rgba(255,255,255,0.35)}
+
+/* ── PROBLEM ITEMS ── */
+.problems{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+.pi{display:flex;gap:14px;padding:15px 18px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:6px}
+.pi-icon{width:22px;height:22px;flex-shrink:0;background:var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;font-size:11px;color:var(--gold);font-weight:700}
+.pi-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.pi-desc{font-size:13px;color:var(--ink3);line-height:1.5;margin:0}
+
+/* ── BENEFIT PILLARS ── */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.pillar{border:1px solid var(--border);border-radius:10px;padding:22px 24px;background:#fff;border-top:3px solid var(--navy)}
+.pillar.g{border-top-color:var(--gold)}
+.pillar.gr{border-top-color:var(--green)}
+.pillar.bl{border-top-color:var(--navy-mid)}
+.pillar.rd{border-top-color:#7B3FB0}
+.p-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--navy);margin-bottom:8px}
+.p-body{font-size:13px;color:var(--ink3);line-height:1.65;margin:0}
+.p-body ul{margin:8px 0 0 14px}
+.p-body li{font-size:13px;line-height:1.7;color:var(--ink3)}
+
+/* ── ARCHITECTURE VISUAL ── */
+.arch{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:32px;margin:32px 0}
+.arch-layer-lbl{font-family:'Source Code Pro',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.arch-layer-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.arch-boxes{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.ab{flex:1;min-width:120px;border-radius:6px;padding:12px 14px;border:1px solid transparent}
+.ab.amber{background:rgba(200,146,42,0.1);border-color:rgba(200,146,42,0.28)}
+.ab.blue{background:rgba(42,80,128,0.1);border-color:rgba(42,80,128,0.28)}
+.ab.green{background:rgba(29,158,117,0.08);border-color:rgba(29,158,117,0.28)}
+.ab.gray{background:rgba(27,58,92,0.06);border-color:var(--border2)}
+.ab.purple{background:rgba(120,80,180,0.07);border-color:rgba(120,80,180,0.22)}
+.ab.teal{background:rgba(29,122,69,0.07);border-color:rgba(29,122,69,0.22)}
+.ab-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.ab-sub{font-size:11px;color:var(--ink3);line-height:1.4}
+.arch-arrow{text-align:center;font-size:16px;color:var(--ink3);padding:4px 0;opacity:.6}
+.sp-container{border:1px solid rgba(42,80,128,0.25);border-radius:8px;padding:16px;margin-bottom:20px;background:rgba(42,80,128,0.03)}
+.sp-container-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-mid);margin-bottom:12px}
+
+/* ── PHASE TABLE ── */
+.phase-table{margin:28px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pt-hdr{display:grid;grid-template-columns:44px 1fr 120px 100px 90px;background:var(--navy-deep)}
+.pt-row{display:grid;grid-template-columns:44px 1fr 120px 100px 90px;border-bottom:1px solid var(--border)}
+.pt-row:last-child{border-bottom:none}
+.pt-row:nth-child(even){background:var(--cream)}
+.pt-cell{padding:13px 14px;font-size:13px;color:var(--ink2);border-right:1px solid var(--border);display:flex;align-items:center}
+.pt-cell:last-child{border-right:none}
+.pt-hdr .pt-cell{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);border-right-color:rgba(255,255,255,0.06)}
+.pt-num{font-family:'Source Code Pro',monospace;font-size:13px;font-weight:500;color:var(--gold)}
+.pt-name{font-weight:600;color:var(--navy);display:block;margin-bottom:2px}
+.pt-desc{font-size:12px;color:var(--ink3)}
+
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.b-now   {background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-mid)}
+.b-soon  {background:rgba(42,80,128,0.08);color:var(--navy-mid);border:1px solid rgba(42,80,128,0.22)}
+.b-later {background:var(--cream2);color:var(--ink3);border:1px solid var(--border2)}
+.b-done  {background:var(--green-dim);color:var(--green);border:1px solid var(--green-mid)}
+
+/* ── TIMELINE ── */
+.tl-wrap{margin:32px 0}
+.tl-track{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.tl-track::before{content:'';position:absolute;top:20px;left:20px;right:20px;height:2px;background:var(--border2);z-index:0}
+.tl-phase{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.tl-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:13px;font-weight:500;margin-bottom:10px;border:2px solid transparent}
+.tl-dot.active{background:var(--navy-deep);color:#fff;border-color:var(--navy-deep)}
+.tl-dot.next{background:#fff;color:var(--navy);border-color:var(--navy-mid)}
+.tl-dot.future{background:#fff;color:var(--ink3);border-color:var(--border2)}
+.tl-dot.done{background:var(--green);color:#fff;border-color:var(--green)}
+.tl-lbl{font-size:12px;font-weight:600;color:var(--navy);text-align:center;margin-bottom:3px}
+.tl-dur{font-size:11px;color:var(--ink3);text-align:center}
+.tl-items{display:grid;grid-template-columns:repeat(5,1fr);margin-top:14px;gap:8px}
+.tl-item{background:var(--cream);border-radius:5px;padding:8px 10px;border:1px solid var(--border)}
+.tl-item-title{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.tl-item-line{font-size:10px;color:var(--ink3);line-height:1.5}
+
+/* ── COST TABLE ── */
+.cost-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:28px 0;font-size:14px}
+.cost-table thead{background:var(--navy-deep)}
+.cost-table thead th{padding:12px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);border-right:1px solid rgba(255,255,255,0.06)}
+.cost-table thead th:last-child{border-right:none;text-align:right}
+.cost-table tbody tr{border-bottom:1px solid var(--border)}
+.cost-table tbody tr:last-child{border-bottom:none}
+.cost-table tbody tr.sub{background:var(--cream)}
+.cost-table tbody tr.tot{background:var(--navy-deep)}
+.cost-table tbody tr.tot td{color:rgba(255,255,255,0.7);font-weight:600}
+.cost-table tbody tr.tot td.ta{color:var(--gold-light);font-size:18px;font-family:'Source Code Pro',monospace}
+.cost-table tbody td{padding:12px 16px;color:var(--ink2);border-right:1px solid var(--border)}
+.cost-table tbody td:last-child{border-right:none;text-align:right;font-family:'Source Code Pro',monospace}
+.cost-table tbody td:first-child{font-weight:500;color:var(--navy)}
+.cost-table .sec-row td{background:var(--cream2);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);padding:7px 16px;border-right:none}
+.cost-note{font-size:12px;color:var(--ink3);margin-top:8px;font-style:italic}
+
+/* ── ROI ── */
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.roi-card{border:1px solid var(--border);border-radius:10px;padding:22px 24px;background:var(--cream)}
+.roi-title{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy-light);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.roi-line{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink2)}
+.roi-line:last-child{border-bottom:none}
+.roi-val{font-family:'Source Code Pro',monospace;font-weight:500;color:var(--navy);font-size:13px}
+.roi-val.pos{color:var(--green)}
+
+/* ── ACCESS TABLE ── */
+.access-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:24px 0}
+.access-table thead{background:var(--navy-deep)}
+.access-table th{padding:11px 16px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);border-right:1px solid rgba(255,255,255,0.06)}
+.access-table th:last-child{border-right:none}
+.access-table td{padding:11px 16px;font-size:13px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);color:var(--ink2)}
+.access-table td:last-child{border-right:none}
+.access-table tr:last-child td{border-bottom:none}
+.access-table tr:nth-child(even) td{background:var(--cream)}
+.access-table td:first-child{font-weight:600;color:var(--navy)}
+.check{color:var(--green);font-size:15px}
+.dash{color:var(--ink3)}
+
+/* ── SCHEMA CHIPS ── */
+.schema-wrap{display:grid;grid-template-columns:150px 1fr;gap:20px;margin:24px 0;align-items:start}
+.schema-anchor{border:1px solid var(--border2);border-radius:6px;overflow:hidden;font-size:12px}
+.sa-hdr{background:var(--navy);color:#fff;padding:8px 12px;font-weight:600}
+.sa-row{padding:5px 12px;border-bottom:1px solid var(--border);color:var(--ink2)}
+.sa-row:last-child{border-bottom:none}
+.sa-row.pk{color:var(--gold);font-weight:500}
+.schema-tables{display:flex;flex-direction:column;gap:10px}
+.st{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.st-hdr{padding:8px 12px;font-weight:600;font-size:12px;color:#fff}
+.st-hdr.f{background:var(--gold)}
+.st-hdr.b{background:var(--navy-mid)}
+.st-hdr.l{background:var(--green)}
+.st-hdr.ag{background:#5B3FA0}
+.chips{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;background:var(--cream)}
+.chip{padding:2px 8px;border-radius:20px;font-size:11px;background:#fff;border:1px solid var(--border2);color:var(--ink2)}
+.chip.fk{background:var(--gold-dim);border-color:var(--gold-mid);color:var(--gold);font-weight:600}
+.chip.pk{background:rgba(27,58,92,0.07);border-color:var(--border2);color:var(--navy);font-weight:600}
+.chip.new{background:rgba(91,63,160,0.07);border-color:rgba(91,63,160,0.2);color:#5B3FA0;font-weight:600}
+
+/* ── AGENT DASHBOARD SECTION ── */
+.agent-features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.af{border:1px solid var(--border);border-radius:10px;padding:20px 22px;background:#fff;border-left:3px solid var(--navy-mid)}
+.af.gold{border-left-color:var(--gold)}
+.af.green{border-left-color:var(--green)}
+.af.purple{border-left-color:#7B3FB0}
+.af-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px}
+.af-body{font-size:13px;color:var(--ink3);line-height:1.6;margin:0}
+
+/* ── FOOTER ── */
+.doc-footer{margin-top:80px;padding-top:28px;border-top:2px solid var(--navy-deep);display:flex;align-items:center;justify-content:space-between}
+.df-logo{height:32px;object-fit:contain;opacity:.6}
+.df-text{font-size:11px;color:var(--ink3);font-family:'Source Code Pro',monospace;letter-spacing:.06em}
+
+/* ── PAGE NUM ── */
+.pg-label{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--ink3);letter-spacing:.1em;text-align:right;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- PRINT BAR -->
+<div class="print-bar no-print">
+  <span>Lakeshore Financial Group — Operations Platform Proposal — Illustrative Sample</span>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     COVER PAGE
+══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-stripe"></div>
+
+  <div class="cover-top">
+    <div class="cover-logo" style="font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#fff;letter-spacing:.02em;">Lakeshore<span style="opacity:.55;font-weight:400"> Financial Group</span></div>
+    <div class="cover-date">Illustrative Sample &nbsp;·&nbsp; Fictitious Data</div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-eyebrow">Technology Modernization Proposal</div>
+    <div class="cover-title">Operations &amp;<br>Reporting Platform</div>
+    <div class="cover-subtitle">A Microsoft 365-native system to replace manual workflows, centralize production data, and deliver real-time visibility across all lines of business.</div>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <div class="cmi">
+        <div class="cmi-label">Prepared for</div>
+        <div class="cmi-value">Firm Leadership</div>
+      </div>
+      <div class="cmi">
+        <div class="cmi-label">Prepared by</div>
+        <div class="cmi-value">Lakeshore Operations</div>
+      </div>
+      <div class="cmi">
+        <div class="cmi-label">Platform</div>
+        <div class="cmi-value">Microsoft 365 / SharePoint Online</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-footer-text">Lakeshore Financial Group &nbsp;·&nbsp; Illustrative sample</div>
+    <div class="confidential">&#9632;&nbsp; Sample</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TABLE OF CONTENTS
+══════════════════════════════════════════════ -->
+<div class="toc-wrap pb">
+  <div class="toc-eyebrow">Contents</div>
+  <div class="toc-head">Table of Contents</div>
+
+  <a class="toc-row" href="#s1">
+    <span class="toc-num">01</span>
+    <span class="toc-lbl">Executive Summary</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">3</span>
+  </a>
+  <div class="toc-sub">The opportunity, the goal, and the ask in two minutes</div>
+
+  <a class="toc-row" href="#s2">
+    <span class="toc-num">02</span>
+    <span class="toc-lbl">The Problem — Current State</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">4</span>
+  </a>
+  <div class="toc-sub">What the existing Excel workflow costs us every week</div>
+
+  <a class="toc-row" href="#s3">
+    <span class="toc-num">03</span>
+    <span class="toc-lbl">The Solution — System Overview</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">5</span>
+  </a>
+  <div class="toc-sub">Platform architecture, data flow, and component map</div>
+
+  <a class="toc-row" href="#s4">
+    <span class="toc-num">04</span>
+    <span class="toc-lbl">Strategic Benefits</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">7</span>
+  </a>
+  <div class="toc-sub">Compliance, reporting, speed, and the agent dashboard advantage</div>
+
+  <a class="toc-row" href="#s5">
+    <span class="toc-num">05</span>
+    <span class="toc-lbl">The Agent Dashboard</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">8</span>
+  </a>
+  <div class="toc-sub">Real-time transparency for all 106 producing agents</div>
+
+  <a class="toc-row" href="#s6">
+    <span class="toc-num">06</span>
+    <span class="toc-lbl">Technical Architecture</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">10</span>
+  </a>
+  <div class="toc-sub">SharePoint Lists schema, data flows, and access control — for developers</div>
+
+  <a class="toc-row" href="#s7">
+    <span class="toc-num">07</span>
+    <span class="toc-lbl">Phased Rollout Plan</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">12</span>
+  </a>
+  <div class="toc-sub">Five phases from prototype to full automation</div>
+
+  <a class="toc-row" href="#s8">
+    <span class="toc-num">08</span>
+    <span class="toc-lbl">Cost &amp; ROI Analysis</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">13</span>
+  </a>
+  <div class="toc-sub">Detailed line-item estimates and return on investment</div>
+
+  <a class="toc-row" href="#s9">
+    <span class="toc-num">09</span>
+    <span class="toc-lbl">Access Control &amp; Security</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">15</span>
+  </a>
+  <div class="toc-sub">Role-based permissions model for staff, agents, and management</div>
+
+  <a class="toc-row" href="#s10">
+    <span class="toc-num">10</span>
+    <span class="toc-lbl">Next Steps</span>
+    <span class="toc-dots"></span>
+    <span class="toc-pg">16</span>
+  </a>
+  <div class="toc-sub">What we need to move forward</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DOCUMENT BODY
+══════════════════════════════════════════════ -->
+<div class="doc">
+
+<!-- ── 01 EXECUTIVE SUMMARY ── -->
+<div class="section" id="s1">
+  <div class="s-eyebrow">01 &nbsp;/&nbsp; Executive Summary</div>
+  <div class="s-title">The opportunity<br>in plain language</div>
+  <div class="s-lead">Lakeshore Financial Group currently manages more than $280 million in annualized production across four lines of business using disconnected Excel spreadsheets, a manual weekly consolidation process, and no shared data infrastructure. This proposal describes a purpose-built operations and reporting platform that eliminates that overhead — hosted entirely within our existing Microsoft 365 subscription, at no new licensing cost.</div>
+
+  <div class="callout">
+    <div class="cl">The core argument</div>
+    <p>We already pay for the infrastructure. Microsoft 365 Business includes SharePoint Online, Power Automate, and the full suite of tools required to build this system. <strong>The only incremental cost is implementation.</strong> Once built, this platform centralizes all submission data, automates NIGO tracking and alerts, delivers a real-time executive dashboard, and gives each of our 106 agents their own window into their book of business — replacing four separate Excel sheets and a labor-intensive weekly merge with a single source of truth.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="sc dark">
+      <div class="sc-num">$280M</div>
+      <div class="sc-lbl">Annualized production pace</div>
+      <div class="sc-sub">Running through manual spreadsheets today</div>
+    </div>
+    <div class="sc dark">
+      <div class="sc-num">106</div>
+      <div class="sc-lbl">Producing agents</div>
+      <div class="sc-sub">Each currently with zero self-service visibility</div>
+    </div>
+    <div class="sc dark">
+      <div class="sc-num">4</div>
+      <div class="sc-lbl">Lines of business</div>
+      <div class="sc-sub">Fixed · BD · IA · Life — each siloed today</div>
+    </div>
+  </div>
+
+  <h3>What we are proposing</h3>
+  <p>A five-phase build of a unified operations platform hosted on SharePoint Online. The system comprises three smart data entry forms (Fixed Annuity, Broker-Dealer/Independent Advisor, and Life Insurance), a centralized Microsoft Lists database, a live executive production dashboard, and a dedicated Agent Dashboard that gives every producing agent real-time visibility into their own submissions, NIGO items, client roster, and YTD production.</p>
+  <p>Phase 1 development work is already underway. A fully functional Fixed Annuity entry form prototype has been built and is available for review. The remaining phases follow a structured rollout requiring a Microsoft-certified SharePoint contractor for integration work estimated at 8–12 weeks total.</p>
+</div>
+
+<!-- ── 02 THE PROBLEM ── -->
+<div class="section pb" id="s2">
+  <div class="s-eyebrow">02 &nbsp;/&nbsp; Current State</div>
+  <div class="s-title">What the existing<br>workflow costs us</div>
+  <div class="s-lead">Every week, four separate Excel files are filled in by operations staff, manually merged into a weekly report, and presented at Thursday's production meeting — a process that is fragile, labor-intensive, and leaves critical data invisible until the meeting itself.</div>
+
+  <div class="problems">
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">No single source of truth</div>
+        <div class="pi-desc">Production data exists in four separate entry files, a weekly report file, and a separate YTD file — all manually maintained. Any discrepancy between them requires human investigation to resolve.</div>
+      </div>
+    </div>
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">Zero real-time visibility</div>
+        <div class="pi-desc">Management has no view into production activity between Monday and Thursday's meeting. A large transfer that arrives Tuesday is invisible to leadership until it is manually entered, merged, and reported four days later.</div>
+      </div>
+    </div>
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">NIGO tracking is entirely manual</div>
+        <div class="pi-desc">787 currently open NIGO items — representing over $17 million in pending business — are tracked in a separate spreadsheet tab with no automated alerts. Items aging past 60 days (the compliance threshold) are only discovered during the weekly meeting review.</div>
+      </div>
+    </div>
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">Agents have no self-service access</div>
+        <div class="pi-desc">All 106 producing agents must contact operations staff to get a status update on any submitted transaction. This generates unnecessary inbound communication volume for the ops team and creates delays for agents working with clients.</div>
+      </div>
+    </div>
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">Data is lost in consolidation</div>
+        <div class="pi-desc">Several fields captured at the LOB level — including LOB from/to on transfers, advisory fee percentages, and full suitability profiles — are discarded during the weekly merge into the consolidated DATA sheet. This data cannot be recovered for historical analysis.</div>
+      </div>
+    </div>
+    <div class="pi">
+      <div class="pi-icon">!</div>
+      <div>
+        <div class="pi-title">Compliance exposure on suitability data</div>
+        <div class="pi-desc">BD and IA suitability information (income, net worth, investment experience, risk tolerance) is currently entered per-transaction rather than per-client, meaning the same client's profile may be entered — and potentially entered inconsistently — dozens of times across the data file.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-grid" style="margin-top:32px">
+    <div class="sc">
+      <div class="sc-num">787</div>
+      <div class="sc-lbl">Open NIGO items</div>
+      <div class="sc-sub">$17.1M in pending business with no automated tracking</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">117</div>
+      <div class="sc-lbl">Days — oldest NIGO</div>
+      <div class="sc-sub">Well past the 60-day compliance threshold</div>
+    </div>
+    <div class="sc">
+      <div class="sc-num">~4 hrs</div>
+      <div class="sc-lbl">Weekly ops overhead</div>
+      <div class="sc-sub">Estimated manual consolidation time each week</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 03 SOLUTION OVERVIEW ── -->
+<div class="section pb" id="s3">
+  <div class="s-eyebrow">03 &nbsp;/&nbsp; The Solution</div>
+  <div class="s-title">A platform built on<br>infrastructure we already own</div>
+  <div class="s-lead">The proposed system is built entirely within Microsoft 365 — the subscription Lakeshore already maintains. No new software licenses. No third-party platforms. No data leaving the Microsoft ecosystem.</div>
+
+  <h3>System architecture overview</h3>
+  <p>The platform has four logical layers: data entry (the forms), data storage (SharePoint Lists), automation (Power Automate), and reporting (dashboards). Each layer connects to the next through standard Microsoft tooling.</p>
+
+  <div class="arch">
+    <div class="arch-layer-lbl">Layer 1 &nbsp;·&nbsp; Data entry forms</div>
+    <div class="arch-boxes">
+      <div class="ab amber">
+        <div class="ab-title">Fixed Annuity form</div>
+        <div class="ab-sub">Periodic · Transfer · Increase · FF logic · 5-way splits</div>
+      </div>
+      <div class="ab blue">
+        <div class="ab-title">BD / IA form</div>
+        <div class="ab-sub">One form · IA toggle · Suitability · Custodian · Model</div>
+      </div>
+      <div class="ab green">
+        <div class="ab-title">Life Insurance form</div>
+        <div class="ab-sub">Policy-based · ASH &amp; LSW · Status pipeline · Commission</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">↓</div>
+
+    <div class="sp-container">
+      <div class="sp-container-lbl">SharePoint Online &nbsp;·&nbsp; Lakeshore Operations Site</div>
+
+      <div class="arch-layer-lbl">Layer 2 &nbsp;·&nbsp; Automation</div>
+      <div class="arch-boxes" style="margin-bottom:16px">
+        <div class="ab purple">
+          <div class="ab-title">Power Automate</div>
+          <div class="ab-sub">Form submit → write to List · Validation · NIGO alert emails · Week tagging</div>
+        </div>
+      </div>
+
+      <div class="arch-layer-lbl">Layer 3 &nbsp;·&nbsp; Data storage (SharePoint Lists)</div>
+      <div class="arch-boxes">
+        <div class="ab gray">
+          <div class="ab-title">Clients</div>
+          <div class="ab-sub">Shared lookup · One row per client</div>
+        </div>
+        <div class="ab amber">
+          <div class="ab-title">Fixed transactions</div>
+          <div class="ab-sub">All fixed submissions · NIGO view</div>
+        </div>
+        <div class="ab blue">
+          <div class="ab-title">BD / IA transactions</div>
+          <div class="ab-sub">Single list · LOB flag · Suitability</div>
+        </div>
+        <div class="ab green">
+          <div class="ab-title">Life policies</div>
+          <div class="ab-sub">Policy pipeline · Status tracking</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">↓</div>
+
+    <div class="arch-layer-lbl">Layer 4 &nbsp;·&nbsp; Reporting &amp; visibility</div>
+    <div class="arch-boxes">
+      <div class="ab gray">
+        <div class="ab-title">Executive dashboard</div>
+        <div class="ab-sub">Weekly totals · Leaderboard · NIGO · Geo · YTD</div>
+      </div>
+      <div class="ab teal">
+        <div class="ab-title">Agent dashboard</div>
+        <div class="ab-sub">Per-agent view · Transactions · NIGO · YTD · Clients</div>
+      </div>
+      <div class="ab gray">
+        <div class="ab-title">Power BI / Excel export</div>
+        <div class="ab-sub">Ad-hoc reporting · Historical analysis</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>How a submission flows through the system</h3>
+  <p>The entire journey from data entry to Thursday's meeting report takes seconds, not days.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:24px 0;align-items:start">
+    <div style="text-align:center">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">Ops enters<br>data</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">Mon–Fri</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding-top:16px;color:var(--ink3);font-size:18px">→</div>
+    <div style="text-align:center">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">Form<br>validates</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">instant</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding-top:16px;color:var(--ink3);font-size:18px">→</div>
+    <div style="text-align:center">
+      <div style="background:rgba(120,80,180,0.08);border:1px solid rgba(120,80,180,0.22);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:#5B3FA0;margin-bottom:6px">Power<br>Automate</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">&lt;2 seconds</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding-top:16px;color:var(--ink3);font-size:18px">→</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:24px;align-items:start">
+    <div style="text-align:center">
+      <div style="background:rgba(42,80,128,0.08);border:1px solid rgba(42,80,128,0.22);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:var(--navy-mid);margin-bottom:6px">SP List<br>stores row</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">permanent</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding-top:16px;color:var(--ink3);font-size:18px">→</div>
+    <div style="text-align:center">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">Dashboard<br>queries</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">on open</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding-top:16px;color:var(--ink3);font-size:18px">→</div>
+    <div style="text-align:center">
+      <div style="background:var(--gold-dim);border:1px solid var(--gold-mid);border-radius:6px;padding:12px 8px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:6px">Thursday<br>meeting</div>
+      <div style="font-size:10px;color:var(--ink3);font-family:'Source Code Pro',monospace">live data</div>
+    </div>
+    <div></div>
+  </div>
+</div>
+
+<!-- ── 04 STRATEGIC BENEFITS ── -->
+<div class="section pb" id="s4">
+  <div class="s-eyebrow">04 &nbsp;/&nbsp; Strategic Benefits</div>
+  <div class="s-title">Four pillars driving<br>the business case</div>
+  <div class="s-lead">The operational improvements are significant. But the deeper strategic value lies in what becomes possible once data is centralized, current, and accessible.</div>
+
+  <div class="pillars">
+    <div class="pillar g">
+      <div class="p-title">Compliance &amp; audit readiness</div>
+      <div class="p-body">
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:8px">Regulatory exposure from suitability data inconsistency is eliminated. Every client's KYC profile is stored once, linked to all their transactions, and timestamped. NIGO items are tracked automatically with age alerts at 30 and 60 days.</p>
+        <ul>
+          <li>Suitability data stored once per client — not per transaction</li>
+          <li>Automated NIGO alerts before items reach compliance thresholds</li>
+          <li>Full audit trail on every submission, edit, and status change</li>
+          <li>Role-based access logs — who saw what, when</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pillar gr">
+      <div class="p-title">Real-time data &amp; reporting flexibility</div>
+      <div class="p-body">
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:8px">Management sees production as it happens, not as it was four days ago. Any report that can be defined can be run instantly — by agent, by LOB, by week, by state, by carrier, or any combination.</p>
+        <ul>
+          <li>Live production totals between Monday and Thursday</li>
+          <li>Instant LOB breakdowns: Fixed, BD, IA, Life</li>
+          <li>Geographic production map — MI, TX, CA, and beyond</li>
+          <li>Historical trend queries going back to day one</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="p-title">Processing speed &amp; staff leverage</div>
+      <div class="p-body">
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:8px">The current weekly consolidation process — estimated at 3–4 hours of ops staff time — disappears entirely. The forms guide users through complex logic (flow flip, agent splits, transfer type) with built-in validation, reducing entry errors at source.</p>
+        <ul>
+          <li>Manual weekly merge eliminated — ~200 hours/year recovered</li>
+          <li>Conditional form logic prevents common entry errors</li>
+          <li>NIGO email alerts reduce status-check call volume</li>
+          <li>All four ops staff enter to one shared system simultaneously</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pillar bl">
+      <div class="p-title">Agent transparency &amp; retention</div>
+      <div class="p-body">
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:8px">Giving agents visibility into their own book of business is a meaningful differentiator in producer recruitment and retention. Agents who can see their pipeline, their NIGO items, and their YTD production in real time are better positioned to serve clients and grow their practice.</p>
+        <ul>
+          <li>No more calling ops for a status update</li>
+          <li>Agents see their NIGO items before they become problems</li>
+          <li>YTD totals and pacing visible at any time</li>
+          <li>Competitive advantage in producer recruitment</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 05 AGENT DASHBOARD ── -->
+<div class="section pb" id="s5">
+  <div class="s-eyebrow">05 &nbsp;/&nbsp; The Agent Dashboard</div>
+  <div class="s-title">Real-time transparency<br>for every producing agent</div>
+  <div class="s-lead">The Agent Dashboard is a dedicated SharePoint page — separate from the operations site — accessible to all 106 agents via their existing Microsoft 365 logins. Each agent sees only their own data, filtered automatically by their identity.</div>
+
+  <div class="callout">
+    <div class="cl">Why this matters</div>
+    <p>Today, every status inquiry from an agent — "Did my transfer go through?" "Why is my client's application still pending?" "What's my YTD number?" — requires a phone call or email to operations staff. With the Agent Dashboard, those questions are answered the moment an agent opens a browser. <strong>For a 106-agent firm, eliminating even two status calls per agent per week reclaims over 10,000 minutes of operations capacity annually.</strong></p>
+  </div>
+
+  <h3>What agents see</h3>
+
+  <div class="agent-features">
+    <div class="af gold">
+      <div class="af-title">Submitted transactions — all statuses</div>
+      <div class="af-body">Every submission the agent is credited on, filterable by date range, transaction type, LOB, and status. Current week, YTD, or full history.</div>
+    </div>
+    <div class="af">
+      <div class="af-title">NIGO items — what's stuck and why</div>
+      <div class="af-body">A live view of every open NIGO in the agent's book, sorted by age. Notes from operations are visible, giving agents the context they need to follow up with clients directly.</div>
+    </div>
+    <div class="af green">
+      <div class="af-title">YTD production totals</div>
+      <div class="af-body">Credited production broken down by LOB — Fixed, BD, IA, Life — with periodic and transfer subtotals. Updated in real time as records are entered by operations.</div>
+    </div>
+    <div class="af purple">
+      <div class="af-title">Client roster</div>
+      <div class="af-body">Every client the agent has written business for, with transaction count and most recent activity date. Foundation for future relationship management features.</div>
+    </div>
+  </div>
+
+  <h3>What agents can do</h3>
+  <p>The Agent Dashboard is primarily a read-only view. Agents can add notes to their own records — useful for flagging follow-up actions or adding context for operations staff — but cannot edit production figures, statuses, or other agents' records. This keeps data integrity with operations while giving agents a meaningful channel to communicate.</p>
+
+  <h3>Access model</h3>
+  <p>The Agent Dashboard lives on a separate SharePoint site from the Operations site. Agents log in with their existing Microsoft 365 credentials — no new accounts, no passwords to manage. SharePoint's native audience targeting ensures each agent's view is automatically filtered to their own book of business. No agent can see another agent's data.</p>
+
+  <div style="margin:24px 0;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:24px">
+    <h4 style="margin-top:0">Dashboard sections at a glance</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">This week</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.7">Weekly production total<br>Transaction count<br>New clients written<br>Pending submissions</div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--navy-mid);margin-bottom:8px">NIGO alerts</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.7">Open items by age<br>Red flag: 60+ days<br>Ops notes visible<br>Click-through to record</div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:14px">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:8px">YTD totals</div>
+        <div style="font-size:12px;color:var(--ink3);line-height:1.7">Total credited production<br>LOB breakdown<br>Periodic vs. transfer<br>New client count</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 06 TECHNICAL ARCHITECTURE ── -->
+<div class="section pb" id="s6">
+  <div class="s-eyebrow">06 &nbsp;/&nbsp; Technical Architecture</div>
+  <div class="s-title">For developers &amp;<br>implementation partners</div>
+  <div class="s-lead">This section provides the structural specification required to scope, estimate, and implement the system. It is intended as a technical brief for a Microsoft-certified SharePoint contractor.</div>
+
+  <h3>SharePoint Lists — database schema</h3>
+  <p>The system uses four SharePoint Lists as its data layer. All lists reside in the Lakeshore Operations SharePoint site collection. The <strong>Clients</strong> list is a shared lookup table referenced by all three transaction/policy lists via a SharePoint Lookup column (foreign key).</p>
+
+  <div class="schema-wrap">
+    <div class="schema-anchor">
+      <div class="sa-hdr">Clients list</div>
+      <div class="sa-row pk">ID (PK, auto)</div>
+      <div class="sa-row">Client name</div>
+      <div class="sa-row">Email</div>
+      <div class="sa-row">State</div>
+      <div class="sa-row">District / employer</div>
+      <div class="sa-row">Address · city · zip</div>
+      <div class="sa-row">Phone</div>
+      <div class="sa-row">SSN (BD/IA only)</div>
+      <div class="sa-row">DOB (BD/IA only)</div>
+      <div class="sa-row">Annual income</div>
+      <div class="sa-row">Net worth</div>
+      <div class="sa-row">Liquid net worth</div>
+      <div class="sa-row">Investment objective</div>
+      <div class="sa-row">Risk tolerance</div>
+      <div class="sa-row">Time horizon</div>
+      <div class="sa-row">10× experience fields</div>
+    </div>
+    <div class="schema-tables">
+      <div class="st">
+        <div class="st-hdr f">Fixed transactions list</div>
+        <div class="chips">
+          <span class="chip pk">ID</span><span class="chip fk">ClientID (FK)</span><span class="chip">Sub date</span><span class="chip">IGO date</span><span class="chip">Carrier date</span><span class="chip">New client</span><span class="chip">Transaction type</span><span class="chip">Transfer type</span><span class="chip">Amount</span><span class="chip">Carrier (LSW/ASH)</span><span class="chip">Product</span><span class="chip">Policy #</span><span class="chip">LOB from</span><span class="chip">LOB to</span><span class="chip">From vendor</span><span class="chip">Flow flip</span><span class="chip">FF w/ increase</span><span class="chip">Exist. per pay $</span><span class="chip">New per pay $</span><span class="chip">FOP</span><span class="chip">New $ to Lakeshore</span><span class="chip">Agent1–5 name</span><span class="chip">Agent1–5 split %</span><span class="chip">Agent1–5 total $</span><span class="chip">Research status</span><span class="chip">NIGO status</span><span class="chip">Who processed</span><span class="chip">Notes</span><span class="chip">Week number</span>
+        </div>
+      </div>
+      <div class="st">
+        <div class="st-hdr b">BD / IA transactions list</div>
+        <div class="chips">
+          <span class="chip pk">ID</span><span class="chip fk">ClientID (FK)</span><span class="chip new">LOB flag (BD/IA)</span><span class="chip">Transaction type</span><span class="chip">Transfer type</span><span class="chip">Amount</span><span class="chip">Plan type</span><span class="chip">Product</span><span class="chip">FF flag</span><span class="chip">FF w/ increase</span><span class="chip">New $ to Lakeshore</span><span class="chip new">MRIC flag (IA)</span><span class="chip new">Custodian (IA)</span><span class="chip new">Model name (IA)</span><span class="chip new">Advisory fee % (IA)</span><span class="chip new">$40 fee flag (IA)</span><span class="chip new">Contract date (IA)</span><span class="chip">OFAC</span><span class="chip">Docupace # (BD)</span><span class="chip">Agent1–4 splits</span><span class="chip">Status</span><span class="chip">Notes</span><span class="chip">Week number</span>
+        </div>
+      </div>
+      <div class="st">
+        <div class="st-hdr l">Life policies list</div>
+        <div class="chips">
+          <span class="chip pk">ID</span><span class="chip fk">ClientID (FK)</span><span class="chip">Policy owner</span><span class="chip">Annual premium</span><span class="chip">Vendor (ASH/LSW)</span><span class="chip">Carrier (NLG/Banner/Principal)</span><span class="chip">Product (IUL/Term/Flex)</span><span class="chip">Policy #</span><span class="chip">State</span><span class="chip">Agent1–3 splits</span><span class="chip">Status pipeline</span><span class="chip">Commission paid</span><span class="chip">Notes (threaded)</span><span class="chip">Submit date</span><span class="chip">Week number</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin-top:28px">Design decisions for the implementing developer</h4>
+  <ul>
+    <li><strong>Suitability data lives on the Client record, not the transaction.</strong> Income, net worth, and investment experience are per-person attributes. Storing them in the Clients list eliminates the current problem of the same client's profile being entered — and potentially entered inconsistently — on every BD/IA transaction.</li>
+    <li><strong>BD and IA share one list.</strong> A single LOB flag column (values: BD or IA) distinguishes transaction type. IA-specific fields (custodian, model, advisory fee %) are nullable for BD rows. This is cleaner than two nearly-identical lists and simplifies cross-LOB reporting.</li>
+    <li><strong>NIGO is a filtered view, not a separate list.</strong> The NIGO tracker is a saved SharePoint view on the Fixed transactions list, filtered to <code>NIGO_Status = 'NIGO'</code>. No data duplication. The dashboard and Agent Dashboard read the same filtered endpoint.</li>
+    <li><strong>Agent splits stored as flat columns.</strong> Agent1Name, Agent1PctSplit, Agent1TotalAmt … through Agent5 (Fixed) or Agent4 (BD/IA/Life). SharePoint Lists does not support row-level child records natively without additional complexity. Flat columns are sufficient for the reporting requirements and simplify form-to-list writes.</li>
+    <li><strong>Week tagging is automatic.</strong> Power Automate calculates and stamps WeekNumber and SubmitDate on every record at the time of creation. Ops staff do not enter this manually.</li>
+  </ul>
+
+  <h3>Power Automate flows required</h3>
+  <ul>
+    <li><strong>Form submission handler (×3 — one per LOB):</strong> Receives HTTP POST from the form, validates required fields, looks up or creates the Client record, writes the transaction row to the appropriate list, stamps WeekNumber.</li>
+    <li><strong>NIGO alert flow:</strong> Scheduled daily. Queries Fixed transactions where Status = NIGO and calculates days since IGO date. Sends email to the assigned ops processor and CC: operations manager for items exceeding 30 days; escalation email for items exceeding 60 days.</li>
+    <li><strong>Agent dashboard data feed:</strong> Triggered on list item create/modify. Updates a pre-aggregated Agent Summary list that powers the dashboard's YTD totals without querying full transaction history on every page load.</li>
+  </ul>
+
+  <h3>API connectivity — dashboard to SharePoint</h3>
+  <p>The executive dashboard and agent dashboard read data from SharePoint Lists using the SharePoint REST API. The standard endpoint pattern is:</p>
+  <div style="background:var(--navy-deep);border-radius:6px;padding:14px 18px;margin:12px 0;font-family:'Source Code Pro',monospace;font-size:12px;color:rgba(255,255,255,0.75);overflow-x:auto">
+    GET https://[tenant].sharepoint.com/sites/LakeshoreOperations/_api/web/lists<br>
+    &nbsp;&nbsp;/getbytitle('Fixed transactions')/items<br>
+    &nbsp;&nbsp;?$filter=WeekNumber eq 11 and Status ne 'CANCELLED'<br>
+    &nbsp;&nbsp;&amp;$select=ClientID,TransactionType,Amount,AgentName,Status<br>
+    &nbsp;&nbsp;&amp;$orderby=SubmitDate desc
+  </div>
+  <p>Authentication uses the user's existing SharePoint session token — no additional OAuth configuration required for users already logged into Microsoft 365. External sharing is not enabled; all access is behind Microsoft Entra ID (formerly Azure AD).</p>
+</div>
+
+<!-- ── 07 PHASED ROLLOUT ── -->
+<div class="section pb" id="s7">
+  <div class="s-eyebrow">07 &nbsp;/&nbsp; Rollout Plan</div>
+  <div class="s-title">Five phases from<br>prototype to full automation</div>
+  <div class="s-lead">The build is structured so that each phase delivers standalone value. Lakeshore can stop at any phase and retain a meaningful improvement over the current workflow.</div>
+
+  <div class="tl-wrap">
+    <div class="tl-track">
+      <div class="tl-phase">
+        <div class="tl-dot done">✓</div>
+        <div class="tl-lbl">Phase 1</div>
+        <div class="tl-dur">Complete</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot active">2</div>
+        <div class="tl-lbl">Phase 2</div>
+        <div class="tl-dur">2–3 weeks</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot next">3</div>
+        <div class="tl-lbl">Phase 3</div>
+        <div class="tl-dur">3–4 weeks</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot future">4</div>
+        <div class="tl-lbl">Phase 4</div>
+        <div class="tl-dur">2–3 weeks</div>
+      </div>
+      <div class="tl-phase">
+        <div class="tl-dot future">5</div>
+        <div class="tl-lbl">Phase 5</div>
+        <div class="tl-dur">2–3 weeks</div>
+      </div>
+    </div>
+    <div class="tl-items">
+      <div class="tl-item">
+        <div class="tl-item-title">Forms &amp; dashboard prototype</div>
+        <div class="tl-item-line">Fixed form built. Executive dashboard v1 complete. Browser-based, no SP integration yet.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">BD/IA &amp; Life forms</div>
+        <div class="tl-item-line">Complete all three entry forms. Full field validation. CSV/JSON export from browser.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">SP Lists + Power Automate</div>
+        <div class="tl-item-line">Create all four Lists. Wire forms to Lists via Power Automate. NIGO alerts live.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">Live dashboard + Agent portal</div>
+        <div class="tl-item-line">Dashboard reads from Lists via REST API. Agent Dashboard deployed with role-based filtering.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item-title">Refinement + training</div>
+        <div class="tl-item-line">Staff training, agent onboarding, Power BI integration, historical data import.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-table" style="margin-top:36px">
+    <div class="pt-hdr">
+      <div class="pt-cell">#</div>
+      <div class="pt-cell">Phase &amp; deliverables</div>
+      <div class="pt-cell">Duration</div>
+      <div class="pt-cell">Who builds</div>
+      <div class="pt-cell">Status</div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-cell"><span class="pt-num">01</span></div>
+      <div class="pt-cell"><span class="pt-name">Forms &amp; dashboard prototype</span><span class="pt-desc">Fixed annuity form · Executive dashboard · Browser-based CSV export</span></div>
+      <div class="pt-cell">—</div>
+      <div class="pt-cell">Internal</div>
+      <div class="pt-cell"><span class="badge b-done">Complete</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-cell"><span class="pt-num">02</span></div>
+      <div class="pt-cell"><span class="pt-name">BD/IA and Life forms</span><span class="pt-desc">Complete entry forms for all three LOBs with full validation logic</span></div>
+      <div class="pt-cell">2–3 weeks</div>
+      <div class="pt-cell">Internal</div>
+      <div class="pt-cell"><span class="badge b-now">In progress</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-cell"><span class="pt-num">03</span></div>
+      <div class="pt-cell"><span class="pt-name">SharePoint Lists &amp; Power Automate</span><span class="pt-desc">Create all four Lists · Connect forms via Power Automate · NIGO alert flows · Agent summary feed</span></div>
+      <div class="pt-cell">3–4 weeks</div>
+      <div class="pt-cell">SP Contractor</div>
+      <div class="pt-cell"><span class="badge b-soon">Next</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-cell"><span class="pt-num">04</span></div>
+      <div class="pt-cell"><span class="pt-name">Live dashboard &amp; Agent portal</span><span class="pt-desc">Dashboard reads from Lists via REST API · Agent Dashboard deployed · Role-based access configured</span></div>
+      <div class="pt-cell">2–3 weeks</div>
+      <div class="pt-cell">SP Contractor</div>
+      <div class="pt-cell"><span class="badge b-later">Planned</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-cell"><span class="pt-num">05</span></div>
+      <div class="pt-cell"><span class="pt-name">Refinement &amp; training</span><span class="pt-desc">Staff training · Agent onboarding · Historical data import · Power BI integration · Documentation</span></div>
+      <div class="pt-cell">2–3 weeks</div>
+      <div class="pt-cell">Internal + SP Contractor</div>
+      <div class="pt-cell"><span class="badge b-later">Planned</span></div>
+    </div>
+  </div>
+
+  <p style="margin-top:8px">Total estimated timeline from contractor engagement to fully live system: <strong>10–14 weeks.</strong></p>
+</div>
+
+<!-- ── 08 COST & ROI ── -->
+<div class="section pb" id="s8">
+  <div class="s-eyebrow">08 &nbsp;/&nbsp; Cost &amp; ROI</div>
+  <div class="s-title">Detailed cost estimate<br>and return on investment</div>
+  <div class="s-lead">Because the system is built on Microsoft 365 — which Lakeshore already licenses — there are no new software costs. The investment is implementation labor only, primarily a SharePoint-certified contractor for Phases 3 and 4.</div>
+
+  <table class="cost-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th>Est. hours</th>
+        <th style="text-align:right">Est. cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sec-row"><td colspan="4">Phase 1 &amp; 2 — Internal development (already underway)</td></tr>
+      <tr>
+        <td>Fixed annuity entry form</td>
+        <td>Fully built · Field-validated · CSV export · Autocomplete logic</td>
+        <td>—</td>
+        <td>Complete</td>
+      </tr>
+      <tr>
+        <td>Executive production dashboard</td>
+        <td>Weekly totals · Leaderboard · NIGO · Geo · YTD · File upload</td>
+        <td>—</td>
+        <td>Complete</td>
+      </tr>
+      <tr>
+        <td>BD/IA entry form</td>
+        <td>Combined form with IA toggle · Suitability fields · Splits</td>
+        <td>~8 hrs</td>
+        <td>Internal</td>
+      </tr>
+      <tr>
+        <td>Life insurance entry form</td>
+        <td>Policy-based model · Status pipeline · ASH &amp; LSW · Commission</td>
+        <td>~6 hrs</td>
+        <td>Internal</td>
+      </tr>
+      <tr class="sub">
+        <td colspan="3"><strong>Phase 1–2 subtotal</strong></td>
+        <td><strong>$0</strong></td>
+      </tr>
+
+      <tr class="sec-row"><td colspan="4">Phase 3 — SharePoint Lists &amp; Power Automate (SP Contractor · $125/hr est.)</td></tr>
+      <tr>
+        <td>SharePoint Lists setup</td>
+        <td>Create 4 Lists · Column definitions · Lookup columns · Views · Permissions</td>
+        <td>8–12 hrs</td>
+        <td>$1,000–$1,500</td>
+      </tr>
+      <tr>
+        <td>Power Automate — form handlers</td>
+        <td>3 submission flows (Fixed, BD/IA, Life) · Client lookup/create logic · Week stamp</td>
+        <td>10–16 hrs</td>
+        <td>$1,250–$2,000</td>
+      </tr>
+      <tr>
+        <td>Power Automate — NIGO alerts</td>
+        <td>Scheduled NIGO age query · 30-day warning · 60-day escalation emails</td>
+        <td>4–6 hrs</td>
+        <td>$500–$750</td>
+      </tr>
+      <tr>
+        <td>Power Automate — agent summary feed</td>
+        <td>YTD aggregation on record create/modify · Agent summary List</td>
+        <td>4–8 hrs</td>
+        <td>$500–$1,000</td>
+      </tr>
+      <tr>
+        <td>Testing &amp; QA (Phase 3)</td>
+        <td>End-to-end submission testing · Permission validation · Alert verification</td>
+        <td>6–8 hrs</td>
+        <td>$750–$1,000</td>
+      </tr>
+      <tr class="sub">
+        <td colspan="3"><strong>Phase 3 subtotal</strong></td>
+        <td><strong>$4,000–$6,250</strong></td>
+      </tr>
+
+      <tr class="sec-row"><td colspan="4">Phase 4 — Live dashboard &amp; Agent portal (SP Contractor)</td></tr>
+      <tr>
+        <td>Dashboard REST API integration</td>
+        <td>Replace file-upload with live SP Lists queries · Auth token wiring</td>
+        <td>6–10 hrs</td>
+        <td>$750–$1,250</td>
+      </tr>
+      <tr>
+        <td>Agent Dashboard build</td>
+        <td>Separate SP site · Role-filtered views · Transaction list · NIGO · YTD · Notes</td>
+        <td>12–18 hrs</td>
+        <td>$1,500–$2,250</td>
+      </tr>
+      <tr>
+        <td>Access control configuration</td>
+        <td>SP permission groups · Entra ID audience targeting · Ops vs. agent vs. manager roles</td>
+        <td>4–6 hrs</td>
+        <td>$500–$750</td>
+      </tr>
+      <tr>
+        <td>Testing &amp; QA (Phase 4)</td>
+        <td>Agent impersonation testing · Cross-LOB data isolation verification</td>
+        <td>4–6 hrs</td>
+        <td>$500–$750</td>
+      </tr>
+      <tr class="sub">
+        <td colspan="3"><strong>Phase 4 subtotal</strong></td>
+        <td><strong>$3,250–$5,000</strong></td>
+      </tr>
+
+      <tr class="sec-row"><td colspan="4">Phase 5 — Training, data import &amp; documentation</td></tr>
+      <tr>
+        <td>Historical data import</td>
+        <td>Migrate existing Excel data into SP Lists · Client deduplication</td>
+        <td>6–10 hrs</td>
+        <td>$750–$1,250</td>
+      </tr>
+      <tr>
+        <td>Staff training</td>
+        <td>4 ops staff · Agent onboarding session · Management reporting walkthrough</td>
+        <td>4–6 hrs</td>
+        <td>$500–$750</td>
+      </tr>
+      <tr>
+        <td>Documentation</td>
+        <td>Admin guide · User guide · Power Automate flow documentation</td>
+        <td>4–6 hrs</td>
+        <td>$500–$750</td>
+      </tr>
+      <tr class="sub">
+        <td colspan="3"><strong>Phase 5 subtotal</strong></td>
+        <td><strong>$1,750–$2,750</strong></td>
+      </tr>
+
+      <tr class="sec-row"><td colspan="4">Ongoing (after go-live)</td></tr>
+      <tr>
+        <td>Monthly maintenance retainer</td>
+        <td>Bug fixes · Minor enhancements · Power Automate monitoring · Optional</td>
+        <td>2–4 hrs/mo</td>
+        <td>$250–$500/mo</td>
+      </tr>
+      <tr>
+        <td>Microsoft 365 licensing</td>
+        <td>No change — existing M365 Business subscription covers all components</td>
+        <td>—</td>
+        <td>$0 incremental</td>
+      </tr>
+
+      <tr class="tot">
+        <td class="total-label" colspan="3">Total implementation investment (Phases 3–5)</td>
+        <td class="ta">$9,000 – $14,000</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="cost-note">* Estimates based on $125/hr SharePoint contractor rate. Actual rates vary by contractor; $100–$150/hr is typical for Microsoft-certified SharePoint developers. Phases 1–2 have no contractor cost.</p>
+
+  <h3>Return on investment</h3>
+
+  <div class="roi-grid">
+    <div class="roi-card">
+      <div class="roi-title">Quantifiable time savings (annual)</div>
+      <div class="roi-line">
+        <span>Weekly consolidation eliminated</span>
+        <span class="roi-val pos">~200 hrs/yr</span>
+      </div>
+      <div class="roi-line">
+        <span>Agent status-check calls reduced</span>
+        <span class="roi-val pos">~520 hrs/yr</span>
+      </div>
+      <div class="roi-line">
+        <span>NIGO follow-up communication</span>
+        <span class="roi-val pos">~100 hrs/yr</span>
+      </div>
+      <div class="roi-line">
+        <span>Manual error correction</span>
+        <span class="roi-val pos">~50 hrs/yr</span>
+      </div>
+      <div class="roi-line" style="border-top:1px solid var(--border2);margin-top:4px;padding-top:10px">
+        <strong>Total estimated hours recovered</strong>
+        <span class="roi-val pos" style="font-size:15px">~870 hrs/yr</span>
+      </div>
+    </div>
+    <div class="roi-card">
+      <div class="roi-title">Strategic value (harder to quantify)</div>
+      <div class="roi-line">
+        <span>NIGO items caught before 60 days</span>
+        <span class="roi-val">Compliance risk ↓</span>
+      </div>
+      <div class="roi-line">
+        <span>Agent retention &amp; recruitment edge</span>
+        <span class="roi-val">Competitive diff.</span>
+      </div>
+      <div class="roi-line">
+        <span>Real-time production visibility</span>
+        <span class="roi-val">Decision speed ↑</span>
+      </div>
+      <div class="roi-line">
+        <span>Historical data queryable forever</span>
+        <span class="roi-val">Reporting depth ↑</span>
+      </div>
+      <div class="roi-line" style="border-top:1px solid var(--border2);margin-top:4px;padding-top:10px">
+        <strong>Break-even (at $50/hr ops cost)</strong>
+        <span class="roi-val pos" style="font-size:15px">&lt; 6 months</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px">
+    <div class="cl">The math in one line</div>
+    <p>At a conservative $50/hour blended operations cost, recovering 870 hours per year represents <strong>$43,500 in annual labor value</strong> — against a one-time implementation investment of $9,000–$14,000. The system pays for itself in under four months of operation.</p>
+  </div>
+</div>
+
+<!-- ── 09 ACCESS CONTROL ── -->
+<div class="section pb" id="s9">
+  <div class="s-eyebrow">09 &nbsp;/&nbsp; Access Control</div>
+  <div class="s-title">Role-based permissions<br>across every user type</div>
+  <div class="s-lead">All access is governed by Microsoft Entra ID (Azure AD) and SharePoint permission groups. No user sees data outside their role. No external accounts or passwords are required — everyone logs in with their existing Lakeshore Microsoft 365 credentials.</div>
+
+  <table class="access-table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Who</th>
+        <th>Enter data</th>
+        <th>View all LOBs</th>
+        <th>Own data only</th>
+        <th>Add notes</th>
+        <th>Admin / config</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ops staff — Fixed</td>
+        <td>1 person</td>
+        <td><span class="check">✓</span> Fixed only</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>Ops staff — BD/IA</td>
+        <td>1 person</td>
+        <td><span class="check">✓</span> BD/IA only</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>Ops staff — Life</td>
+        <td>1 person</td>
+        <td><span class="check">✓</span> Life only</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>Operations manager</td>
+        <td>1–2 people</td>
+        <td><span class="check">✓</span> All LOBs</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>Management / principals</td>
+        <td>Leadership</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>Producing agents</td>
+        <td>~106 agents</td>
+        <td><span class="dash">—</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span> Own records</td>
+        <td><span class="dash">—</span></td>
+      </tr>
+      <tr>
+        <td>System administrator</td>
+        <td>1 person</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="dash">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>How agent data isolation works</h4>
+  <p>SharePoint's audience targeting combined with a filtered list view means that when an agent opens the Agent Dashboard, the REST API query automatically appends their Microsoft 365 user identity to the filter: <code>Agent1Name eq '[current user]' OR Agent2Name eq '[current user]'</code> and so on through all split positions. An agent with a 25% split on a transaction sees that transaction in their dashboard. An agent with no credit on a transaction never sees it.</p>
+
+  <h4>Sensitive data handling</h4>
+  <p>SSN and DOB fields (stored in the Clients list for BD/IA suitability compliance) are restricted to Operations Manager and Administrator roles only. These fields are excluded from all agent-facing views and from the executive dashboard. SharePoint column-level permissions enforce this at the API layer — not just in the UI.</p>
+</div>
+
+<!-- ── 10 NEXT STEPS ── -->
+<div class="section" id="s10">
+  <div class="s-eyebrow">10 &nbsp;/&nbsp; Next Steps</div>
+  <div class="s-title">What we need<br>to move forward</div>
+  <div class="s-lead">Phase 1 is complete. Phase 2 (BD/IA and Life forms) is in active development and requires no external resource. Phases 3–5 require a decision and a SharePoint contractor engagement.</div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;margin:28px 0">
+    <div style="display:flex;gap:16px;align-items:flex-start;padding:18px 20px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:6px">
+      <div style="width:28px;height:28px;background:var(--navy-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:12px;font-weight:500;color:#fff;flex-shrink:0;margin-top:1px">1</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Approve the proposal and greenlight Phases 3–5</div>
+        <div style="font-size:13px;color:var(--ink3)">A written or verbal go-ahead from Lakeshore leadership authorizes the contractor search and sets the project in motion. No budget commitment is required until a contractor is selected.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:flex-start;padding:18px 20px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:6px">
+      <div style="width:28px;height:28px;background:var(--navy-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:12px;font-weight:500;color:#fff;flex-shrink:0;margin-top:1px">2</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Identify and engage a Microsoft-certified SharePoint contractor</div>
+        <div style="font-size:13px;color:var(--ink3)">Candidates can be sourced through Microsoft's partner directory, Upwork Pro, or a referral. This proposal and the technical appendix in Section 6 provide everything a contractor needs to scope and estimate the work precisely.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:flex-start;padding:18px 20px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--navy);border-radius:6px">
+      <div style="width:28px;height:28px;background:var(--navy-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:12px;font-weight:500;color:#fff;flex-shrink:0;margin-top:1px">3</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Complete Phase 2 internally (in progress)</div>
+        <div style="font-size:13px;color:var(--ink3)">The BD/IA and Life entry forms are being built in parallel. These will be complete and available for contractor review before Phase 3 begins, ensuring no delay in the integration work.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:flex-start;padding:18px 20px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:6px">
+      <div style="width:28px;height:28px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Source Code Pro',monospace;font-size:12px;font-weight:500;color:#fff;flex-shrink:0;margin-top:1px">4</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Confirm M365 tenant permissions with IT</div>
+        <div style="font-size:13px;color:var(--ink3)">The contractor will need SharePoint Site Collection Administrator access to create Lists, configure Power Automate flows, and deploy pages. This is a standard permission set within M365 Business and should be confirmed before work begins.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="cl">The ask</div>
+    <p>This proposal requests approval to proceed with Phases 3 through 5, with a total implementation budget of <strong>$9,000 to $14,000</strong> for SharePoint contractor engagement. All forms and the executive dashboard (Phases 1–2) are complete or in final development at no contractor cost. The full system can be live and serving all 106 agents within <strong>12–16 weeks</strong> of contractor engagement.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top:72px;padding-top:28px;border-top:2px solid var(--navy-deep);display:flex;align-items:center;justify-content:space-between">
+    <div class="df-logo" style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy-deep);opacity:.6;line-height:1">Lakeshore<span style="font-weight:400"> Financial Group</span></div>
+    <div style="font-size:11px;color:var(--ink3);font-family:'Source Code Pro',monospace;letter-spacing:.06em;text-align:right">
+      Lakeshore Financial Group &nbsp;·&nbsp; Operations Platform Proposal &nbsp;·&nbsp; March 2026<br>
+      Illustrative sample &nbsp;·&nbsp; Fictitious data
+    </div>
+  </div>
+</div>
+
+</div><!-- /doc -->
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
