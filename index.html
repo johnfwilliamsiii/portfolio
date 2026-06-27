@@ -6,6 +6,8 @@
   <title>John Williams — Process Improvement & Operations Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://k12retirementplanning.com" crossorigin>
+  <link rel="dns-prefetch" href="https://k12retirementplanning.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -773,22 +775,38 @@
 
   <!-- SITE PREVIEW MODAL -->
   <div id="site-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.82);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <style>@keyframes modalspin{to{transform:rotate(360deg)}}</style>
     <div style="position:relative;width:92vw;height:88vh;max-width:1300px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.08);">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem;background:#111;border-bottom:1px solid rgba(255,255,255,0.07);">
         <span id="modal-label" style="font-size:0.78rem;color:#888;font-family:monospace;letter-spacing:0.05em;"></span>
         <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;color:#aaa;font-size:1.3rem;line-height:1;padding:0.2rem 0.5rem;border-radius:4px;transition:color 0.2s,background 0.2s;" onmouseover="this.style.color='#fff';this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.color='#aaa';this.style.background='none'">✕</button>
       </div>
-      <iframe id="modal-frame" src="" style="width:100%;height:calc(100% - 42px);border:none;"></iframe>
+      <div id="modal-loading" style="position:absolute;left:0;right:0;top:42px;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:2;transition:opacity 0.25s;">
+        <div style="width:38px;height:38px;border:3px solid #e5e5e5;border-top-color:#111;border-radius:50%;animation:modalspin 0.7s linear infinite;"></div>
+      </div>
+      <iframe id="modal-frame" src="" style="width:100%;height:calc(100% - 42px);border:none;position:relative;z-index:1;"></iframe>
     </div>
   </div>
 
   <script>
+    function showModalLoading() {
+      var l = document.getElementById('modal-loading');
+      if (l) { l.style.display = 'flex'; l.style.opacity = '1'; }
+    }
+    function hideModalLoading() {
+      var l = document.getElementById('modal-loading');
+      if (l) { l.style.opacity = '0'; setTimeout(function(){ l.style.display = 'none'; }, 250); }
+    }
     function openModal(src, label) {
+      showModalLoading();
       document.getElementById('modal-frame').src = src;
       document.getElementById('modal-label').textContent = label;
       const modal = document.getElementById('site-modal');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      // safety net: if onload never fires, clear the spinner anyway
+      clearTimeout(window.__modalLoadTimer);
+      window.__modalLoadTimer = setTimeout(hideModalLoading, 8000);
     }
     function closeModal() {
       document.getElementById('site-modal').style.display = 'none';
@@ -801,6 +819,35 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeModal();
     });
+
+    // Bind the iframe load handler in-script (avoids inline-handler timing races),
+    // and ignore the initial empty-src load.
+    (function () {
+      var frame = document.getElementById('modal-frame');
+      frame.addEventListener('load', function () {
+        if (frame.getAttribute('src')) hideModalLoading();
+      });
+    })();
+
+    // Warm each target on hover/touch so it's already downloading by the time it's clicked.
+    (function () {
+      var prefetched = {};
+      function warm(url) {
+        if (!url || prefetched[url]) return;
+        prefetched[url] = true;
+        var link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = url;
+        document.head.appendChild(link);
+      }
+      document.querySelectorAll('.project-cta[onclick]').forEach(function (btn) {
+        var m = btn.getAttribute('onclick').match(/openModal\(\s*['"]([^'"]+)['"]/);
+        if (!m) return;
+        var url = m[1];
+        btn.addEventListener('mouseenter', function () { warm(url); });
+        btn.addEventListener('touchstart', function () { warm(url); }, { passive: true });
+      });
+    })();
   </script>
 </body>
 </html> 
